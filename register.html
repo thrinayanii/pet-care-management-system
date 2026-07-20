@@ -6,7 +6,7 @@
   <title>Register — PawCare & Rescue</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
 
@@ -93,11 +93,11 @@
         <p class="login-link">Already have an account? <a href="login.html">Log in</a></p>
       </div>
 
-      <!--The Core Form Context-->
+      <!--main form-->
       <form action="/petcare/register" method="POST" id="regForm" style="display: none;">
         <input type="hidden" name="role" id="roleInput" value="user">
 
-        <!-- Back link to switch role -->
+        <!-- link to change role -->
         <a href="#" onclick="showRoleSelection(event)" class="login-link text-start d-block mb-3 small" style="color: var(--amber); display: flex; align-items: center; gap: 4px;">
             <span class="material-symbols-outlined" style="font-size: 16px;">arrow_back</span> Change account type
         </a>
@@ -124,7 +124,7 @@
           <input type="tel" id="phone" name="phone" placeholder="+94 77 000 0000">
         </div>
 
-        <!-- Volunteer Context Section -->
+        <!-- volunteer section -->
         <div class="volunteer-field" id="volunteerField">
           <div class="section-label">Volunteer preferences</div>
           <div class="field">
@@ -138,7 +138,7 @@
           </div>
         </div>
 
-        <!-- Pet Owner Context Section -->
+        <!-- pet owner section -->
         <div class="owner-field" id="ownerField">
           <div class="section-label">Pet details (Optional)</div>
           <div class="field">
