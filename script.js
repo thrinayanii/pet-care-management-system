@@ -1,20 +1,19 @@
-// Swap views based on user choice
+// swap the views based on role
   function handleRoleSelection(role) {
-    // Save chosen state to structural field
+    // Save chosen state
     document.getElementById('roleInput').value = role;
-    
-    // UI Elements configuration toggles
+  
     const roleStep = document.getElementById('step-role-selection');
     const formStep = document.getElementById('regForm');
     const subText = document.getElementById('formSubText');
     const volunteerSection = document.getElementById('volunteerField');
     const ownerSection = document.getElementById('ownerField');
 
-    // Hide initial selection layer and show registration fields container
+    // hide the role selection and show the form
     roleStep.style.display = 'none';
     formStep.style.display = 'block';
 
-    // Show specific fields based on profile context
+    // specific sections for each role
     if (role === 'volunteer') {
       subText.textContent = 'Complete your profile details to join our rescue network team.';
       volunteerSection.classList.add('show');
@@ -26,7 +25,7 @@
     }
   }
 
-  // Allow clicking back to reset options
+  // to click back to reset
   function showRoleSelection(event) {
     event.preventDefault();
     document.getElementById('step-role-selection').style.display = 'block';
@@ -34,18 +33,7 @@
     document.getElementById('formSubText').textContent = 'Join PawCare — pick your role to get started.';
   }
 
-  function checkStrength(val) {
-    const bar = document.getElementById('strengthBar');
-    const txt = document.getElementById('strengthText');
-    bar.className = 'strength-bar';
-    if (val.length === 0) { txt.textContent = 'Use 8+ characters with numbers and symbols.'; return; }
-    const strong = val.length >= 10 && /[0-9]/.test(val) && /[^a-zA-Z0-9]/.test(val);
-    const medium = val.length >= 8 && (/[0-9]/.test(val) || /[^a-zA-Z0-9]/.test(val));
-    if (strong) { bar.classList.add('strong'); txt.textContent = 'Strong password ✓'; txt.style.color = '#2E7D52'; }
-    else if (medium) { bar.classList.add('medium'); txt.textContent = 'Medium — add a symbol to strengthen.'; txt.style.color = '#C8883A'; }
-    else { bar.classList.add('weak'); txt.textContent = 'Too short — use at least 8 characters.'; txt.style.color = '#C0392B'; }
-  }
-
+  //card selection
   function selectType(card, role) {
     document.querySelectorAll('.type-card').forEach(c => c.classList.remove('selected'));
     card.classList.add('selected');
@@ -54,6 +42,7 @@
     vf.classList.toggle('show', role === 'volunteer');
   }
 
+//password strength checker
   function checkStrength(val) {
     const bar = document.getElementById('strengthBar');
     const txt = document.getElementById('strengthText');
@@ -65,6 +54,7 @@
     else if (medium) { bar.classList.add('medium'); txt.textContent = 'Medium — add a symbol to strengthen.'; txt.style.color = '#C8883A'; }
     else { bar.classList.add('weak'); txt.textContent = 'Too short — use at least 8 characters.'; txt.style.color = '#C0392B'; }
   }
+
 
   // adoption page filter
     function openApplicationModal(petName, kennelNo) {
