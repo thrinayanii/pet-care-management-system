@@ -65,3 +65,34 @@
     else if (medium) { bar.classList.add('medium'); txt.textContent = 'Medium — add a symbol to strengthen.'; txt.style.color = '#C8883A'; }
     else { bar.classList.add('weak'); txt.textContent = 'Too short — use at least 8 characters.'; txt.style.color = '#C0392B'; }
   }
+
+  // adoption page filter
+    function openApplicationModal(petName, kennelNo) {
+    document.getElementById('modalPetTitle').innerText = 'Adopt ' + petName + ' (Kennel ' + kennelNo + ')';
+    document.getElementById('modalPetNameInput').value = petName;
+    document.getElementById('modalKennelInput').value = kennelNo;
+    document.getElementById('adoptionModal').style.display = 'flex';
+  }
+
+  function closeApplicationModal() {
+    document.getElementById('adoptionModal').style.display = 'none';
+  }
+
+  function filterPets() {
+    const species = document.getElementById('speciesFilter').value;
+    const gender = document.getElementById('genderFilter').value;
+    const status = document.getElementById('statusFilter').value;
+    const cards = document.querySelectorAll('.pet-item');
+
+    cards.forEach(card => {
+      const matchSpecies = species === 'all' || card.dataset.species === species;
+      const matchGender = gender === 'all' || card.dataset.gender === gender;
+      const matchStatus = status === 'all' || card.dataset.status === status;
+
+      if (matchSpecies && matchGender && matchStatus) {
+        card.style.display = 'flex';
+      } else {
+        card.style.display = 'none';
+      }
+    });
+  }
