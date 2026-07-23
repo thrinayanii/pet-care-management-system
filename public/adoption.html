@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adopt a Rescue Pet — PawCare & Rescue</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  
+  <link rel="stylesheet" href="styles/styles.css">
+  <link rel="stylesheet" href="styles/landing.css">
+</head>
+<body>
+
+<!-- nav -->
+<nav class="site-nav">
+  <a href="index.html" class="logo">
+    <div class="logo-icon"><img src="logo.svg" alt="PawCare Logo" class="custom-logo"></div>
+    <span class="logo-name">PawCare</span>
+  </a>
+
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="adoption.html" class="active-link">Adoption</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <div class="nav-actions">
+    <a href="login.html" class="nav-link">Log in</a>
+    <a href="register.html" class="btn-nav-register">Register</a>
+  </div>
+</nav>
+
+<!-- header -->
+<section class="page-header">
+  <div class="page-header-inner">
+    <span class="lp-eyebrow">Rescue & Rehabilitation</span>
+    <h1>Find your new <em>forever friend.</em></h1>
+    <p>Every rescue animal in our shelter is vaccinated, health-checked, and waiting to meet their person. Browse their kennel cards below!</p>
+  </div>
+</section>
+
+<!-- pets available -->
+<section class="lp-section">
+
+  <!-- filter -->
+  <div class="adoption-filter-bar">
+    <div class="filter-group">
+      <label for="speciesFilter">Species</label>
+      <select id="speciesFilter" onchange="filterPets()">
+        <option value="all">All Animals</option>
+        <option value="dog">Dogs</option>
+        <option value="cat">Cats</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="genderFilter">Gender</label>
+      <select id="genderFilter" onchange="filterPets()">
+        <option value="all">Any Gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="statusFilter">Status</label>
+      <select id="statusFilter" onchange="filterPets()">
+        <option value="all">All Statuses</option>
+        <option value="available" selected>Available for Adoption</option>
+        <option value="under_care">Under Medical Care</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- pets cards -->
+  <div class="kennel-grid adoption-grid" id="petsContainer">
+
+    <!-- card 1 -->
+     <!-- edit by connecting to back end and in index page-->
+    <div class="kennel-card pet-item" data-species="dog" data-gender="male" data-status="available" id="rocky">
+      <div class="kennel-tag">
+        <span><span class="status-dot"></span>Available</span>
+        <span>Kennel 04</span>
+      </div>
+      <div class="kennel-photo">
+        <span class="material-symbols-outlined">pets</span>
+      </div>
+      <div class="kennel-body">
+        <h3>Rocky</h3>
+        <div class="kennel-meta">Male · 2 yrs · Mixed breed</div>
+        <span class="kennel-trait">Playful & loyal</span>
+        <p class="pet-bio">Rescued from Negombo. Rocky loves outdoor walks, game fetches, and gets along well with other dogs.</p>
+        <button class="kennel-btn" onclick="openApplicationModal('Rocky', '04')">Apply to Adopt Rocky</button>
+      </div>
+    </div>
+
+    <!-- card 2 -->
+    <div class="kennel-card pet-item" data-species="cat" data-gender="female" data-status="available" id="luna">
+      <div class="kennel-tag">
+        <span><span class="status-dot"></span>Available</span>
+        <span>Kennel 11</span>
+      </div>
+      <div class="kennel-photo">
+        <span class="material-symbols-outlined">pets</span>
+      </div>
+      <div class="kennel-body">
+        <h3>Luna</h3>
+        <div class="kennel-meta">Female · 1 yr · Domestic shorthair</div>
+        <span class="kennel-trait">Gentle & curious</span>
+        <p class="pet-bio">A sweet, affectionate cat who loves cozy sunspots and gentle lap cuddles.</p>
+        <button class="kennel-btn" onclick="openApplicationModal('Luna', '11')">Apply to Adopt Luna</button>
+      </div>
+    </div>
+
+    <!-- card 3 -->
+    <div class="kennel-card pet-item" data-species="dog" data-gender="female" data-status="available" id="coco">
+      <div class="kennel-tag">
+        <span><span class="status-dot"></span>Available</span>
+        <span>Kennel 07</span>
+      </div>
+      <div class="kennel-photo">
+        <span class="material-symbols-outlined">pets</span>
+      </div>
+      <div class="kennel-body">
+        <h3>Coco</h3>
+        <div class="kennel-meta">Female · 3 yrs · Labrador mix</div>
+        <span class="kennel-trait">Great with kids</span>
+        <p class="pet-bio">Well-trained and friendly. Coco is looking for an active family with a garden area.</p>
+        <button class="kennel-btn" onclick="openApplicationModal('Coco', '07')">Apply to Adopt Coco</button>
+      </div>
+    </div>
+
+    <!-- card 4 -->
+    <div class="kennel-card pet-item" data-species="cat" data-gender="male" data-status="available" id="simba">
+      <div class="kennel-tag">
+        <span><span class="status-dot"></span>Available</span>
+        <span>Kennel 15</span>
+      </div>
+      <div class="kennel-photo">
+        <span class="material-symbols-outlined">pets</span>
+      </div>
+      <div class="kennel-body">
+        <h3>Simba</h3>
+        <div class="kennel-meta">Male · 6 months · Kitten</div>
+        <span class="kennel-trait">High energy & playful</span>
+        <p class="pet-bio">Curious little explorer who loves feather toys and playing with cat towers.</p>
+        <button class="kennel-btn" onclick="openApplicationModal('Simba', '15')">Apply to Adopt Simba</button>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- adoption process info -->
+<section class="lp-section alt">
+  <div class="lp-section-inner">
+    <div class="lp-section-head">
+      <span class="lp-eyebrow">How It Works</span>
+      <h2>Our 3-step <em>adoption path.</em></h2>
+      <p>We ensure every pet finds a compatible, loving environment where they can thrive long-term.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          <div class="step-title">Submit Application</div>
+          <div class="step-desc">Pick your preferred pet and share details about your home layout and lifestyle.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          <div class="step-title">Meet & Greet</div>
+          <div class="step-desc">Visit our rescue center in Negombo to spend 1-on-1 time with your selected animal.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">
+          <div class="step-title">Welcome Them Home</div>
+          <div class="step-desc">Finalize adoption paperwork, receive their complete medical records, and take them home!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- application form -->
+<div id="adoptionModal" class="modal-overlay" style="display: none;">
+  <div class="modal-content form-wrap">
+    <div class="modal-header">
+      <h3 class="form-heading" id="modalPetTitle">Adopt Pet</h3>
+      <button class="modal-close" onclick="closeApplicationModal()">&times;</button>
+    </div>
+    
+    <p class="form-sub">Fill out this quick inquiry to start your adoption process.</p>
+
+    <form action="/petcare/adopt" method="POST">
+      <input type="hidden" id="modalPetNameInput" name="pet_name">
+      <input type="hidden" id="modalKennelInput" name="kennel_no">
+
+      <div class="field">
+        <label for="adopterEmail">Your Email</label>
+        <input type="email" id="adopterEmail" name="email" placeholder="you@example.com" required>
+      </div>
+
+      <div class="field">
+        <label for="adopterPhone">Phone Number</label>
+        <input type="tel" id="adopterPhone" name="phone" placeholder="+94 77 000 0000" required>
+      </div>
+
+      <div class="field">
+        <label for="adoptionMessage">Why would you like to adopt this pet?</label>
+        <textarea id="adoptionMessage" name="message" rows="4" class="field-textarea" placeholder="Tell us a little about your home, yard, or prior experience with pets..." required></textarea>
+      </div>
+
+      <button type="submit" class="btn-primary">Submit Adoption Inquiry</button>
+    </form>
+  </div>
+</div>
+
+<!-- footer -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">
+        <div class="logo-icon"><img src="logo.svg" alt="PawCare Logo" class="custom-logo"></div>
+        <span class="logo-name">PawCare</span>
+      </a>
+      <p>A pet care and rescue home based in Sri Lanka — booking services and finding forever homes since 2019.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="adoption.html">Adoption</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <h4>Account</h4>
+      <a href="login.html">Log in</a>
+      <a href="register.html">Register</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="mailto:hello@pawcare.lk">hello@pawcare.lk</a>
+      <a href="tel:+94770000000">+94 77 000 0000</a>
+      <a href="#">Colombo, Sri Lanka</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 PawCare & Rescue. All rights reserved.</span>
+    <span>Made with care, for every paw.</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
