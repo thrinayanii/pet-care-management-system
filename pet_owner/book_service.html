@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Service — PawCare & Rescue</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  
+  <link rel="stylesheet" href="../styles/styles.css">
+  <link rel="stylesheet" href="../styles/landing.css">
+  <link rel="stylesheet" href="../styles/dashboard.css">
+</head>
+<body>
+
+<!-- nav -->
+<nav class="site-nav">
+  <a href="../public/index.html" class="logo">
+    <div class="logo-icon"><img src="../logo.svg" alt="PawCare Logo" class="custom-logo"></div>
+    <span class="logo-name">PawCare</span>
+  </a>
+
+  <div class="nav-links">
+    <a href="petowner_dashboard.html">Dashboard</a>
+    <a href="mypets.html">My Pets</a>
+    <a href="book_service.html" class="active-link">Book Service</a>
+    <a href="my_appointments.html">Appointments</a>
+    <a href="../public/adoption.html">Adopt</a>
+  </div>
+
+  <div class="nav-actions">
+    <a href="profile.html" class="user-profile-btn" title="My Profile">
+      <div class="avatar-icon"><span class="material-symbols-outlined">person</span></div>
+      <span class="uname">Profile</span>
+    </a>
+    <a href="../auth/login.html" class="btn-hero-outline nav-logout-btn">Log out</a>
+  </div>
+</nav>
+
+<section class="lp-section" style="padding-top: 32px;">
+
+  <div class="form-container-box">
+    <h2 class="form-title">Schedule an Appointment</h2>
+    <p class="form-subtitle">Choose a pet, select a service or vet visit, and pick your preferred time.</p>
+
+    <form action="/petcare/book" method="POST">
+      
+      <!-- filter -->
+      <div class="field">
+        <label for="petSelect">Select Pet</label>
+        <select id="petSelect" name="pet_id" required>
+          <option value="1">Milo (Golden Retriever)</option>
+          <option value="2">Bella (Persian Cat)</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="serviceSelect">Service Category</label>
+        <select id="serviceSelect" name="service_type" required>
+          <option value="grooming">Grooming & Bathing (LKR 3,200)</option>
+          <option value="vet">Veterinary Consultation / Checkup (LKR 2,000)</option>
+          <option value="daycare">Pet Daycare (LKR 2,500/day)</option>
+          <option value="boarding">Overnight Boarding (LKR 4,000/night)</option>
+          <option value="walking">Dog Walking (LKR 1,800/session)</option>
+          <option value="training">Obedience Training (LKR 5,000)</option>
+        </select>
+      </div>
+
+      <div class="form-row-2">
+        <div class="field">
+          <label for="apptDate">Date</label>
+          <input type="date" id="apptDate" name="appointment_date" required>
+        </div>
+
+        <div class="field">
+          <label for="apptTime">Preferred Time</label>
+          <input type="time" id="apptTime" name="appointment_time" required>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="bookingNotes">Special Instructions or Symptoms</label>
+        <textarea id="bookingNotes" name="notes" rows="3" class="field-textarea" placeholder="Tell us about any specific requests, dietary notes, or health concerns..."></textarea>
+      </div>
+
+      <button type="submit" class="submit-booking-btn">Confirm & Book Appointment</button>
+    </form>
+  </div>
+
+</section>
+
+<!-- footer -->
+<footer class="site-footer">
+  <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+    <span>© 2026 PawCare & Rescue. All rights reserved.</span>
+    <span>Made with care, for every paw.</span>
+  </div>
+</footer>
+
+<script>
+  // Pre-select 'vet' if passed in URL query
+  const urlParams = new URLSearchParams(window.location.search);
+  const serviceType = urlParams.get('type');
+  if (serviceType === 'vet') {
+    document.getElementById('serviceSelect').value = 'vet';
+  }
+</script>
+
+</body>
+</html>

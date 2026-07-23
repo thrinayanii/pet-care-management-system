@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Pets — PawCare & Rescue</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  
+  <link rel="stylesheet" href="../styles/styles.css">
+  <link rel="stylesheet" href="../styles/landing.css">
+  <link rel="stylesheet" href="../styles/dashboard.css">
+</head>
+<body>
+
+<!-- nav -->
+<nav class="site-nav">
+  <a href="../public/index.html" class="logo">
+    <div class="logo-icon"><img src="../logo.svg" alt="PawCare Logo" class="custom-logo"></div>
+    <span class="logo-name">PawCare</span>
+  </a>
+
+  <div class="nav-links">
+    <a href="petowner_dashboard.html">Dashboard</a>
+    <a href="mypets.html" class="active-link">My Pets</a>
+    <a href="book_service.html">Book Service</a>
+    <a href="my_appointments.html">Appointments</a>
+    <a href="../public/adoption.html">Adopt</a>
+  </div>
+
+  <div class="nav-actions">
+    <a href="profile.html" class="user-profile-btn" title="My Profile">
+      <div class="avatar-icon"><span class="material-symbols-outlined">person</span></div>
+      <span class="uname">Profile</span>
+    </a>
+    <a href="../auth/login.html" class="btn-hero-outline nav-logout-btn">Log out</a>
+  </div>
+</nav>
+
+<section class="lp-section" style="padding-top: 32px;">
+
+  <!-- header -->
+  <div class="pets-header-bar">
+    <div>
+      <span class="lp-eyebrow">Companion Profiles</span>
+      <h1 class="page-title">My Registered Pets</h1>
+    </div>
+    <a href="add_pet.html" class="add-pet-dash-btn" style="margin-top:0; padding: 10px 18px;">+ Register New Pet</a>
+  </div>
+
+  <!-- pet cards -->
+  <div class="pet-cards-grid">
+    
+    <!-- card 1 -->
+    <div class="pet-detail-card">
+      <div class="pet-card-top">
+        <div class="pet-avatar-lg"><span class="material-symbols-outlined">pets</span></div>
+        <div class="pet-card-meta">
+          <h3>Milo</h3>
+          <span class="pet-species-badge">Dog</span>
+        </div>
+      </div>
+      <ul class="pet-info-list">
+        <li><strong>Breed:</strong> Golden Retriever</li>
+        <li><strong>Gender:</strong> Male</li>
+        <li><strong>Age:</strong> 2 Years (24 Months)</li>
+        <li><strong>Notes:</strong> Mild chicken allergy. Up to date on all core vaccinations.</li>
+      </ul>
+      <div class="pet-card-actions">
+        <a href="book_service.html?pet=milo" class="dash-pet-action" style="font-size: 13px;">Book Service for Milo →</a>
+      </div>
+    </div>
+
+    <!-- card 2 -->
+    <div class="pet-detail-card">
+      <div class="pet-card-top">
+        <div class="pet-avatar-lg"><span class="material-symbols-outlined">pets</span></div>
+        <div class="pet-card-meta">
+          <h3>Bella</h3>
+          <span class="pet-species-badge">Cat</span>
+        </div>
+      </div>
+      <ul class="pet-info-list">
+        <li><strong>Breed:</strong> Persian Cat</li>
+        <li><strong>Gender:</strong> Female</li>
+        <li><strong>Age:</strong> 8 Months</li>
+        <li><strong>Notes:</strong> Indoor cat, due for rabies booster checkup.</li>
+      </ul>
+      <div class="pet-card-actions">
+        <a href="book_service.html?pet=bella" class="dash-pet-action" style="font-size: 13px;">Book Service for Bella →</a>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- footer -->
+<footer class="site-footer">
+  <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+    <span>© 2026 PawCare & Rescue. All rights reserved.</span>
+    <span>Made with care, for every paw.</span>
+  </div>
+</footer>
+
+</body>
+</html>
