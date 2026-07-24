@@ -5,6 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "TestApp",
+            "request": "launch",
+            "mainClass": "com.pawcare.TestApp",
+            "projectName": "pet-care-management-system_f299a970"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "Main",
+            "projectName": "pet-care-management-system_f299a970"
+        },
+        {
             "type": "chrome",
             "request": "launch",
             "name": "Open register.html",
