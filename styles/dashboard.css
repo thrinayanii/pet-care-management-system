@@ -458,3 +458,48 @@
     grid-template-columns: 1fr; /* Stack vertically on small phones */
   }
 }
+
+/* adoption*/
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+  .modal-card { background: white; padding: 2rem; border-radius: 12px; width: 100%; max-width: 500px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+
+  .filter-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    align-items: center;
+  }
+  .filter-btn {
+    padding: 8px 18px;
+    border: 1.5px solid var(--border);
+    background: var(--parchment);
+    color: var(--brown);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--brown);
+    color: var(--cream);
+    border-color: var(--brown);
+  }
+  
+  .adoption-3col-grid {
+    display: grid ;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px ;
+    width: 100% ;
+  }
+
+  @media (max-width: 900px) {
+    .adoption-3col-grid {
+      grid-template-columns: repeat(2, 1fr)
+    }
+  }
+  @media (max-width: 600px) {
+    .adoption-3col-grid {
+      grid-template-columns: 1fr ;
+    }
+  }
