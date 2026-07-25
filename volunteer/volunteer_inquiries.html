@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Volunteer Inquiries | PawCare & Rescue</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../styles/landing.css">
+    <link rel="stylesheet" href="../styles/dashboard.css">
+    <link rel="stylesheet" href="../styles/volunteer.css">
+
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="site-nav">
+
+    <a href="index.html" class="logo">
+
+        <div class="logo-icon">
+
+            <img src="../logo.svg"
+                 class="custom-logo"
+                 alt="PawCare Logo">
+
+        </div>
+
+        <span class="logo-name">
+
+            PawCare
+
+        </span>
+
+    </a>
+
+    <div class="nav-links">
+
+        <a href="volunteer_dashboard.html">
+
+            Dashboard
+
+        </a>
+
+        <a href="volunteer_applications.html">
+
+            My Applications
+
+        </a>
+
+        <a href="volunteer_inquiries.html"
+           class="active-link">
+
+            Inquiries
+
+        </a>
+
+    </div>
+
+    <div class="nav-actions">
+
+        <a href="volunteer-profile.html"
+           class="user-profile-btn">
+
+            <div class="avatar-icon">
+
+                <span class="material-symbols-outlined">
+
+                    person
+
+                </span>
+
+            </div>
+
+            <span class="uname">
+
+                Profile
+
+            </span>
+
+        </a>
+
+        <a href="login.html"
+           class="btn-hero-outline nav-logout-btn">
+
+            Log out
+
+        </a>
+
+    </div>
+
+</nav>
+
+<!-- ================= PAGE ================= -->
+
+<section class="lp-section">
+
+    <div class="welcome-banner">
+
+        <div class="welcome-left">
+
+            <h1>
+
+                Volunteer Inquiries
+
+            </h1>
+
+            <p>
+
+                Need help or have a question?
+                Submit an inquiry and our management team will
+                respond as soon as possible.
+
+            </p>
+
+        </div>
+
+    </div>
+
+<!-- ================= SUBMIT INQUIRY ================= -->
+
+<div class="dash-block">
+
+    <div class="dash-block-head">
+
+        <h3>
+
+            Submit a New Inquiry
+
+        </h3>
+
+    </div>
+
+    <form id="inquiryForm"
+          class="inquiry-form">
+
+        <div class="form-row">
+
+            <div class="field-group">
+
+                <label>
+
+                    Subject
+
+                </label>
+
+                <input type="text"
+                       id="subject"
+                       placeholder="Enter inquiry subject"
+                       required>
+
+            </div>
+
+            <div class="field-group">
+
+                <label>
+
+                    Category
+
+                </label>
+
+                <select id="category">
+
+                    <option>Volunteer Tasks</option>
+
+                    <option>Schedule</option>
+
+                    <option>General</option>
+
+                    <option>Certificate</option>
+
+                    <option>Technical Issue</option>
+
+                    <option>Other</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <div class="field-group">
+
+            <label>
+
+                Message
+
+            </label>
+
+            <textarea id="message"
+                      rows="6"
+                      placeholder="Describe your inquiry..."
+                      required></textarea>
+
+        </div>
+
+        <button type="submit"
+                class="btn-primary">
+
+            Send Inquiry
+
+        </button>
+
+    </form>
+
+</div>
+
+<!-- ================= PREVIOUS INQUIRIES ================= -->
+
+<div class="dash-block">
+
+<div class="dash-block-head">
+
+<h3>
+
+Previous Inquiries
+
+</h3>
+
+</div>
+
+<!-- ================= INQUIRY 1 ================= -->
+
+<div class="inquiry-card">
+
+    <div class="inquiry-header">
+
+        <div class="user-info">
+
+            <span class="material-symbols-outlined">
+
+                account_circle
+
+            </span>
+
+            <div>
+
+                <h4>
+
+                    You
+
+                </h4>
+
+                <span class="inquiry-date">
+
+                    18 July 2026
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div class="message-box">
+
+        <div class="message-subject">
+
+            Schedule Change
+
+        </div>
+
+        <p>
+
+            I have an examination on Saturday.
+            Would it be possible to move my volunteer
+            shift to Sunday instead?
+
+        </p>
+
+    </div>
+
+    <div class="management-reply unread">
+
+        <div class="reply-header">
+
+            <div class="reply-title">
+
+                <span class="material-symbols-outlined">
+
+                    pets
+
+                </span>
+
+                PawCare Management
+
+            </div>
+
+        </div>
+
+        <p>
+
+            Yes. Your volunteer schedule has been updated.
+            Please check your dashboard calendar for the
+            revised assignment.
+
+        </p>
+
+
+    </div>
+
+</div>
+
+<!-- ================= INQUIRY 2 ================= -->
+
+<div class="inquiry-card">
+
+    <div class="inquiry-header">
+
+        <div class="user-info">
+
+            <span class="material-symbols-outlined">
+
+                account_circle
+
+            </span>
+
+            <div>
+
+                <h4>
+
+                    You
+
+                </h4>
+
+                <span class="inquiry-date">
+
+                    14 July 2026
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="message-box">
+
+        <div class="message-subject">
+
+            Volunteer Certificate
+
+        </div>
+
+        <p>
+
+            When will certificates be issued for the
+            July adoption event?
+
+        </p>
+
+    </div>
+
+    <div class="management-reply">
+
+        <div class="reply-header">
+
+            <div class="reply-title">
+
+                <span class="material-symbols-outlined">
+
+                    pets
+
+                </span>
+
+                PawCare Management
+
+            </div>
+
+        </div>
+
+        <p>
+
+            Certificates will be emailed within two weeks
+            after the completion of the event.
+
+        </p>
+
+    </div>
+
+</div>
+
+<!-- ================= INQUIRY 3 ================= -->
+
+<div class="inquiry-card">
+
+    <div class="inquiry-header">
+
+        <div class="user-info">
+
+            <span class="material-symbols-outlined">
+
+                account_circle
+
+            </span>
+
+            <div>
+
+                <h4>
+
+                    You
+
+                </h4>
+
+                <span class="inquiry-date">
+
+                    10 July 2026
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="message-box">
+
+        <div class="message-subject">
+
+            Volunteer Hours
+
+        </div>
+
+        
+        <p>
+
+            How can I check the total volunteer hours
+            I have completed so far?
+
+        </p>
+
+    </div>
+
+    <div class="pending-reply">
+
+        <span class="material-symbols-outlined">
+
+            schedule
+
+        </span>
+
+        Awaiting a response from PawCare Management...
+
+    </div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= FOOTER ================= -->
+
+<footer class="site-footer">
+
+    <div class="footer-bottom"
+         style="border-top:none;padding-top:0;">
+
+        <span>
+
+            © 2026 PawCare & Rescue. All rights reserved.
+
+        </span>
+
+        <span>
+
+            Made with care, for every paw.
+
+        </span>
+
+    </div>
+
+</footer>
+
+<script src="../volunteer.js"></script>
+
+</body>
+
+</html>

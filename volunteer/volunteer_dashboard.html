@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Volunteer Dashboard — PawCare & Rescue</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../styles/landing.css">
+    <link rel="stylesheet" href="../styles/dashboard.css">
+    <link rel="stylesheet" href="../styles/volunteer.css">
+
+</head>
+
+<body>
+
+<!-- ================= NAVIGATION ================= -->
+
+<nav class="site-nav">
+
+    <a href="index.html" class="logo">
+
+        <div class="logo-icon">
+            <img src="../logo.svg"
+                 alt="PawCare Logo"
+                 class="custom-logo">
+        </div>
+
+        <span class="logo-name">
+            PawCare
+        </span>
+
+    </a>
+
+    <div class="nav-links">
+
+        <a href="volunteer_dashboard.html"
+           class="active-link">
+
+            Dashboard
+
+        </a>
+
+        <a href="volunteer_applications.html">
+            My Applications
+        </a>
+        
+        <a href="volunteer_inquiries.html">
+            Inquiries
+        </a>
+
+    </div>
+
+    <div class="nav-actions">
+
+        <a href="volunteer-profile.html"
+           class="user-profile-btn">
+
+            <div class="avatar-icon">
+
+                <span class="material-symbols-outlined">
+
+                    person
+
+                </span>
+
+            </div>
+
+            <span class="uname">
+
+                Profile
+
+            </span>
+
+        </a>
+
+        <a href="login.html"
+           class="btn-hero-outline nav-logout-btn">
+
+            Log out
+
+        </a>
+
+    </div>
+
+</nav>
+
+<!-- ================= DASHBOARD ================= -->
+
+<section class="lp-section"
+         style="padding-top:32px;">
+
+    <!-- Welcome Banner -->
+
+    <div class="welcome-banner">
+
+        <div class="welcome-left">
+
+            <h1>
+
+                Welcome Back, Volunteer!
+
+            </h1>
+
+            <p>
+
+                Thank you for supporting PawCare.
+                Browse available volunteer opportunities,
+                manage your applications and view your
+                upcoming schedule.
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+    <!-- Statistics -->
+
+    <div class="dashboard-stats-grid">
+
+        <div class="dash-stat-card">
+
+            <div class="dash-stat-icon">
+
+                <span class="material-symbols-outlined">
+
+                    volunteer_activism
+
+                </span>
+
+            </div>
+
+            <div>
+
+                <div class="dash-stat-num">
+
+                    8
+
+                </div>
+
+                <div class="dash-stat-lbl">
+
+                    Available Tasks
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="dash-stat-card">
+
+            <div class="dash-stat-icon">
+
+                <span class="material-symbols-outlined">
+
+                    assignment
+
+                </span>
+
+            </div>
+
+            <div>
+
+                <div class="dash-stat-num">
+
+                    3
+
+                </div>
+
+                <div class="dash-stat-lbl">
+
+                    My Applications
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="dash-stat-card">
+
+            <div class="dash-stat-icon">
+
+                <span class="material-symbols-outlined">
+
+                    task_alt
+
+                </span>
+
+            </div>
+
+            <div>
+
+                <div class="dash-stat-num">
+
+                    2
+
+                </div>
+
+                <div class="dash-stat-lbl">
+
+                    Approved Tasks
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="dash-stat-card">
+
+            <div class="dash-stat-icon">
+
+                <span class="material-symbols-outlined">
+
+                    schedule
+
+                </span>
+
+            </div>
+
+            <div>
+
+                <div class="dash-stat-num">
+
+                    18
+
+                </div>
+
+                <div class="dash-stat-lbl">
+
+                    Volunteer Hours
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Main Grid -->
+
+    <div class="dashboard-main-grid">
+
+        <!-- Available Tasks -->
+
+        <div class="dash-block"
+             id="tasks">
+
+            <div class="dash-block-head">
+
+                <h3>
+
+                    Available Volunteer Tasks
+
+                </h3>
+
+            </div>
+
+            <div class="dash-pet-list">
+
+                <!-- Task -->
+
+                <div class="dash-pet-item">
+
+                    <div class="dash-pet-avatar">
+
+                        <span class="material-symbols-outlined">
+
+                            pets
+
+                        </span>
+
+                    </div>
+
+                    <div class="dash-pet-info">
+
+                        <h4>
+
+                            Dog Walking
+
+                        </h4>
+
+                        <p>
+
+                             15 July 2026
+
+                        </p>
+
+                        <p>
+
+                             8.00 AM – 11.00 AM
+
+                        </p>
+
+                        <p>
+
+                             Colombo Shelter
+
+                        </p>
+
+                    </div>
+
+                    <button class="btn-primary apply-btn">
+
+                        Apply
+
+                    </button>
+
+                </div>
+
+                <!-- Task -->
+
+                <div class="dash-pet-item">
+
+                    <div class="dash-pet-avatar">
+
+                        <span class="material-symbols-outlined">
+
+                            cleaning_services
+
+                        </span>
+
+                    </div>
+
+                    <div class="dash-pet-info">
+
+                        <h4>
+
+                            Shelter Cleaning
+
+                        </h4>
+
+                        <p>
+
+                             18 July 2026
+
+                        </p>
+
+                        <p>
+
+                             9.00 AM – 1.00 PM
+
+                        </p>
+
+                        <p>
+
+                             PawCare Shelter
+
+                        </p>
+
+                    </div>
+
+                    <button class="btn-primary apply-btn">
+
+                        Apply
+
+                    </button>
+
+                </div>
+                                <!-- Task -->
+
+                                <div class="dash-pet-item">
+
+                                    <div class="dash-pet-avatar">
+                
+                                        <span class="material-symbols-outlined">
+                
+                                            campaign
+                
+                                        </span>
+                
+                                    </div>
+                
+                                    <div class="dash-pet-info">
+                
+                                        <h4>
+                
+                                            Adoption Event Assistant
+                
+                                        </h4>
+                
+                                        <p>
+                
+                                             22 July 2026
+                
+                                        </p>
+                
+                                        <p>
+                
+                                             10.00 AM – 4.00 PM
+                
+                                        </p>
+                
+                                        <p>
+                
+                                             PawCare Adoption Centre
+                
+                                        </p>
+                
+                                    </div>
+                
+                                    <button class="btn-primary apply-btn">
+                
+                                        Apply
+                
+                                    </button>
+                
+                                </div>
+                
+                            </div>
+                
+                        </div>
+                
+                        <!-- Volunteer Calendar -->
+                
+                        <div class="dash-block"
+                             id="calendar">
+                
+                            <div class="dash-block-head">
+                
+                                <h3>
+                
+                                    Volunteer Calendar
+                
+                                </h3>
+                
+                            </div>
+                
+                            <div class="calendar-card">
+                
+                                <div class="calendar-header">
+                
+                                    <button id="prevMonth">
+                
+                                        ❮
+                
+                                    </button>
+                
+                                    <h4 id="monthYear">
+                
+                                        July 2026
+                
+                                    </h4>
+                
+                                    <button id="nextMonth">
+                
+                                        ❯
+                
+                                    </button>
+                
+                                </div>
+                
+                                <div class="weekdays">
+                
+                                    <span>Sun</span>
+                                    <span>Mon</span>
+                                    <span>Tue</span>
+                                    <span>Wed</span>
+                                    <span>Thu</span>
+                                    <span>Fri</span>
+                                    <span>Sat</span>
+                
+                                </div>
+                
+                                <div id="calendarDays"
+                                     class="calendar-days">
+                
+                                </div>
+                
+                                <div class="calendar-legend">
+                
+                                    <div>
+                
+                                        <span class="legend approved"></span>
+                
+                                        Approved
+                
+                                    </div>
+                
+                                    <div>
+                
+                                        <span class="legend pending"></span>
+                
+                                        Pending
+                
+                                    </div>
+                
+                                </div>
+                
+                            </div>
+                
+                        </div>
+                
+                    </div>
+
+                    <div id="taskModal" class="modal">
+                        <div class="modal-content">
+                            <span class="close-modal">&times;</span>
+                    
+                            <h2 id="modalTitle"></h2>
+                    
+                            <p><strong>Date:</strong> <span id="modalDate"></span></p>
+                            <p><strong>Time:</strong> <span id="modalTime"></span></p>
+                            <p><strong>Location:</strong> <span id="modalLocation"></span></p>
+                            <p><strong>Status:</strong> <span id="modalStatus"></span></p>
+                            <p><strong>Description:</strong></p>
+                            <p id="modalDescription"></p>
+                    
+                        </div>
+                    </div>
+                
+                
+        </section>
+                <!-- ================= FOOTER ================= -->
+
+<footer class="site-footer">
+
+    <div class="footer-bottom"
+         style="border-top:none;padding-top:0;">
+
+        <span>
+
+            © 2026 PawCare & Rescue. All rights reserved.
+
+        </span>
+
+        <span>
+
+            Made with care, for every paw.
+
+        </span>
+
+    </div>
+
+</footer>
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script src="../volunteer.js"></script>
+
+</body>
+</html>
