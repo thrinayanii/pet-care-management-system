@@ -26,15 +26,25 @@
     <a href="mypets.html" class="active-link">My Pets</a>
     <a href="book_service.html">Book Service</a>
     <a href="my_appointments.html">Appointments</a>
-    <a href="../public/adoption.html">Adopt</a>
+    <a href="pet_adoption.html">Adopt</a>
   </div>
 
   <div class="nav-actions">
-    <a href="profile.html" class="user-profile-btn" title="My Profile">
-      <div class="avatar-icon"><span class="material-symbols-outlined">person</span></div>
-      <span class="uname">Profile</span>
-    </a>
-    <a href="../auth/login.html" class="btn-hero-outline nav-logout-btn">Log out</a>
+    <div class="profile-dropdown-wrap" style="position: relative; display: inline-block;">
+      <button class="user-profile-btn" id="profileDropdownBtn" onclick="toggleProfileMenu()" type="button" style="display: flex; align-items: center; gap: 6px; cursor: pointer; background: transparent; border: none; padding: 6px 12px;">
+        <div class="avatar-icon"><span class="material-symbols-outlined">person</span></div>
+        <span class="uname" id="profileNavName">Account</span>
+        <span class="material-symbols-outlined" style="font-size: 18px;">expand_more</span>
+      </button>
+
+      <div class="dropdown-menu" id="profileMenu" style="display: none; position: absolute; right: 0; top: 110%; background: white; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 180px; z-index: 1000;">
+        <a href="profile.html" style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; color: #334155; text-decoration: none; font-size: 14px;"><span class="material-symbols-outlined" style="font-size: 18px;">edit</span> Edit Profile</a>
+        <a href="mypets.html" style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; color: #334155; text-decoration: none; font-size: 14px;"><span class="material-symbols-outlined" style="font-size: 18px;">pets</span> My Pets</a>
+        <a href="my_appointments.html" style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; color: #334155; text-decoration: none; font-size: 14px;"><span class="material-symbols-outlined" style="font-size: 18px;">calendar_month</span> Appointments</a>
+        <div style="border-top: 1px solid #e2e8f0; margin: 4px 0;"></div>
+        <a href="../auth/logout.php" style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; color: #ef4444; text-decoration: none; font-size: 14px;"><span class="material-symbols-outlined" style="font-size: 18px;">logout</span> Log Out</a>
+      </div>
+    </div>
   </div>
 </nav>
 
@@ -50,9 +60,10 @@
   </div>
 
   <!-- pet cards -->
-  <div class="pet-cards-grid">
+  <div class="pet-cards-grid" id="petCardsGrid">
     
     <!-- card 1 -->
+    <!--
     <div class="pet-detail-card">
       <div class="pet-card-top">
         <div class="pet-avatar-lg"><span class="material-symbols-outlined">pets</span></div>
@@ -71,8 +82,9 @@
         <a href="book_service.html?pet=milo" class="dash-pet-action" style="font-size: 13px;">Book Service for Milo →</a>
       </div>
     </div>
-
+    -->
     <!-- card 2 -->
+     <!--
     <div class="pet-detail-card">
       <div class="pet-card-top">
         <div class="pet-avatar-lg"><span class="material-symbols-outlined">pets</span></div>
@@ -91,7 +103,8 @@
         <a href="book_service.html?pet=bella" class="dash-pet-action" style="font-size: 13px;">Book Service for Bella →</a>
       </div>
     </div>
-
+  -->
+    <p style="color: #64748b;" id="loadingText">Loading your pets...</p>
   </div>
 
 </section>
@@ -104,5 +117,64 @@
   </div>
 </footer>
 
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const response = await fetch('get_user_pets.php');
+      const data = await response.json();
+
+      const grid = document.getElementById('petCardsGrid');
+      if (!grid) return;
+
+      grid.innerHTML = ''; // Clear loading text
+
+      if (!data.pets || data.pets.length === 0) {
+        grid.innerHTML = `<p style="color: #64748b; grid-column: 1/-1;">No pets registered yet. Click "+ Register New Pet" above!</p>`;
+        return;
+      }
+
+      // Dynamically render pet cards
+      data.pets.forEach(pet => {
+        const card = document.createElement('div');
+        card.className = 'pet-detail-card';
+        card.innerHTML = `
+          <div class="pet-card-top">
+            <div class="pet-avatar-lg"><span class="material-symbols-outlined">pets</span></div>
+            <div class="pet-card-meta">
+              <h3>${pet.name}</h3>
+              <span class="pet-species-badge">${pet.species || 'Pet'}</span>
+            </div>
+          </div>
+          <ul class="pet-info-list">
+            <li><strong>Breed:</strong> ${pet.breed || 'N/A'}</li>
+            <li><strong>Gender:</strong> ${pet.gender || 'N/A'}</li>
+            <li><strong>Age:</strong> ${pet.age || 'N/A'}</li>
+            <li><strong>Notes:</strong> ${pet.notes || 'No special notes recorded.'}</li>
+          </ul>
+          <div class="pet-card-actions">
+            <a href="book_service.html?pet_id=${pet.id}" class="dash-pet-action" style="font-size: 13px;">Book Service for ${pet.name} →</a>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    } catch (err) {
+      console.error('Error fetching pets:', err);
+      const grid = document.getElementById('petCardsGrid');
+      if (grid) grid.innerHTML = `<p style="color: #ef4444; grid-column: 1/-1;">Unable to load pets right now.</p>`;
+    }
+  });
+
+  function toggleProfileMenu() {
+    const menu = document.getElementById('profileMenu');
+    if (menu) menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+  }
+
+  window.addEventListener('click', (e) => {
+    if (!e.target.closest('.profile-dropdown-wrap')) {
+      const menu = document.getElementById('profileMenu');
+      if (menu) menu.style.display = 'none';
+    }
+  });
+</script>
 </body>
 </html>
