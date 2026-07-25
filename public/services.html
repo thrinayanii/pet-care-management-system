@@ -28,8 +28,8 @@
   </div>
 
   <div class="nav-actions">
-    <a href="../login.html" class="nav-link">Log in</a>
-    <a href="../register.html" class="btn-nav-register">Register</a>
+    <a href="../auth/login.html" class="nav-link">Log in</a>
+    <a href="../auth/register.html" class="btn-nav-register">Register</a>
   </div>
 </nav>
 
@@ -61,7 +61,7 @@
         <li><span class="feature-dot"></span> Live photo & video updates</li>
         <li><span class="feature-dot"></span> Custom feeding schedules</li>
       </ul>
-      <a href="../register.html" class="btn-primary card-btn">Book Daycare Shift</a>
+      <a href="../auth/register.html" class="btn-primary card-btn">Book Daycare Shift</a>
     </div>
 
     <!-- boarding -->
@@ -77,7 +77,7 @@
         <li><span class="feature-dot"></span> Morning and evening exercise walks</li>
         <li><span class="feature-dot"></span> On-call veterinary oversight</li>
       </ul>
-      <a href="../register.html" class="btn-primary card-btn">Reserve Boarding Suite</a>
+      <a href="../auth/register.html" class="btn-primary card-btn">Reserve Boarding Suite</a>
     </div>
 
     <!-- grooming -->
@@ -93,7 +93,7 @@
         <li><span class="feature-dot"></span> Breed-specific styling & coat trims</li>
         <li><span class="feature-dot"></span> Nail grinding & ear hygiene</li>
       </ul>
-      <a href="../register.html" class="btn-primary card-btn">Schedule Grooming</a>
+      <a href="../auth/register.html" class="btn-primary card-btn">Schedule Grooming</a>
     </div>
 
     <!-- training -->
@@ -109,7 +109,7 @@
         <li><span class="feature-dot"></span> Socialization & reactivity control</li>
         <li><span class="feature-dot"></span> 1-on-1 private trainer sessions</li>
       </ul>
-      <a href="../register.html" class="btn-primary card-btn">Book Training Consultation</a>
+      <a href="../auth/register.html" class="btn-primary card-btn">Book Training Consultation</a>
     </div>
 
     <!-- dog walking -->
@@ -125,7 +125,7 @@
         <li><span class="feature-dot"></span> GPS route tracking & trip summary</li>
         <li><span class="feature-dot"></span> Fresh water refill & paw wipe</li>
       </ul>
-      <a href="../register.html" class="btn-primary card-btn">Schedule a Walker</a>
+      <a href="../auth/register.html" class="btn-primary card-btn">Schedule a Walker</a>
     </div>
 
     <!-- vetnary -->
@@ -141,7 +141,7 @@
         <li><span class="feature-dot"></span> Annual vaccination packages</li>
         <li><span class="feature-dot"></span> Emergency triage & prescriptions</li>
       </ul>
-      <a href="../register.html" class="btn-primary card-btn">Book Vet Appointment</a>
+      <a href="../auth/register.html" class="btn-primary card-btn">Book Vet Appointment</a>
     </div>
 
   </div>
@@ -167,8 +167,8 @@
     </div>
     <div class="footer-col">
       <h4>Account</h4>
-      <a href="../login.html">Log in</a>
-      <a href="../register.html">Register</a>
+      <a href="../auth/login.html">Log in</a>
+      <a href="../auth/register.html">Register</a>
     </div>
     <div class="footer-col">
       <h4>Contact</h4>
@@ -183,7 +183,73 @@
   </div>
 </footer>
 
-<script src="../script.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    const petSelect = document.getElementById('petSelect');
+    const serviceSelect = document.getElementById('serviceSelect');
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // 1. Load Registered Pets for current user
+    try {
+      const petRes = await fetch('get_user_pets.php');
+      const petData = await petRes.json();
+      petSelect.innerHTML = '';
+
+      if (!petData.pets || petData.pets.length === 0) {
+        petSelect.innerHTML = `<option value="">No registered pets found. Please add a pet first.</option>`;
+      } else {
+        petData.pets.forEach(pet => {
+          const opt = document.createElement('option');
+          opt.value = pet.id;
+          opt.textContent = `${pet.name} ${pet.breed ? '(' + pet.breed + ')' : ''}`;
+          petSelect.appendChild(opt);
+        });
+      }
+    } catch (e) {
+      console.error('Error loading pets:', e);
+    }
+
+    // 2. Load Services dynamically from vet_services & other_services
+    try {
+      const srvRes = await fetch('get_services.php');
+      const srvData = await srvRes.json();
+      serviceSelect.innerHTML = '';
+
+      // Populate Vet Services Group
+      if (srvData.vet_services && srvData.vet_services.length > 0) {
+        const vetGroup = document.createElement('optgroup');
+        vetGroup.label = "Veterinary Services";
+        srvData.vet_services.forEach(s => {
+          const opt = document.createElement('option');
+          opt.value = `vet_${s.service_id}`;
+          opt.textContent = `${s.name} (LKR ${parseFloat(s.price).toLocaleString()})`;
+          vetGroup.appendChild(opt);
+        });
+        serviceSelect.appendChild(vetGroup);
+      }
+
+      // Populate Other Services Group
+      if (srvData.other_services && srvData.other_services.length > 0) {
+        const otherGroup = document.createElement('optgroup');
+        otherGroup.label = "Care & Grooming Services";
+        srvData.other_services.forEach(s => {
+          const opt = document.createElement('option');
+          opt.value = `other_${s.service_id}`;
+          opt.textContent = `${s.name} (LKR ${parseFloat(s.price).toLocaleString()})`;
+          otherGroup.appendChild(opt);
+        });
+        serviceSelect.appendChild(otherGroup);
+      }
+
+      // Pre-select service if passed via URL (?type=vet)
+      if (urlParams.get('type') === 'vet') {
+        serviceSelect.value = serviceSelect.querySelector('optgroup[label="Veterinary Services"] option')?.value || serviceSelect.value;
+      }
+    } catch (e) {
+      console.error('Error loading services:', e);
+    }
+  });
+</script>
 </body>
 </html>
 

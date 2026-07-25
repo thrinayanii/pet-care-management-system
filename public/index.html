@@ -205,7 +205,7 @@
   <div class="lp-cta-banner">
     <h2>Ready to meet your new best friend?</h2>
     <p>Create an account to book services, register your pets, or start an adoption application.</p>
-    <a href="../register.html" class="btn-hero-primary">Create your account</a>
+    <a href="../auth/register.html" class="btn-hero-primary">Create your account</a>
   </div>
 </section>
 
@@ -229,8 +229,8 @@
     </div>
     <div class="footer-col">
       <h4>Account</h4>
-      <a href="../login.html">Log in</a>
-      <a href="../register.html">Register</a>
+      <a href="../auth/login.html">Log in</a>
+      <a href="../auth/register.html">Register</a>
     </div>
     <div class="footer-col">
       <h4>Contact</h4>
@@ -245,6 +245,18 @@
   </div>
 </footer>
 
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+  try {
+    const res = await fetch('../public/get_stats.php');
+    const data = await res.json();
+    const statElem = document.getElementById('petCountStat');
+    if (statElem) statElem.textContent = data.total_pets;
+  } catch (e) {
+    console.error('Error loading stats:', e);
+  }
+});
+</script>
 </body>
 </html>
 

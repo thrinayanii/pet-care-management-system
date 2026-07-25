@@ -29,8 +29,8 @@
   </div>
 
   <div class="nav-actions">
-    <a href="../login.html" class="nav-link">Log in</a>
-    <a href="../register.html" class="btn-nav-register">Register</a>
+    <a href="../auth/login.html" class="nav-link">Log in</a>
+    <a href="../auth/register.html" class="btn-nav-register">Register</a>
   </div>
 </nav>
 
@@ -81,7 +81,8 @@
 
     <!-- card 1 -->
      <!-- edit by connecting to back end and in index page-->
-    <div class="kennel-card pet-item" data-species="dog" data-gender="male" data-status="available" id="rocky">
+    
+    <!-- <div class="kennel-card pet-item" data-species="dog" data-gender="male" data-status="available" id="rocky">
       <div class="kennel-tag">
         <span><span class="status-dot"></span>Available</span>
         <span>Kennel 04</span>
@@ -96,62 +97,8 @@
         <p class="pet-bio">Rescued from Negombo. Rocky loves outdoor walks, game fetches, and gets along well with other dogs.</p>
         <button class="kennel-btn" onclick="openApplicationModal('Rocky', '04')">Apply to Adopt Rocky</button>
       </div>
-    </div>
-
-    <!-- card 2 -->
-    <div class="kennel-card pet-item" data-species="cat" data-gender="female" data-status="available" id="luna">
-      <div class="kennel-tag">
-        <span><span class="status-dot"></span>Available</span>
-        <span>Kennel 11</span>
-      </div>
-      <div class="kennel-photo">
-        <span class="material-symbols-outlined">pets</span>
-      </div>
-      <div class="kennel-body">
-        <h3>Luna</h3>
-        <div class="kennel-meta">Female · 1 yr · Domestic shorthair</div>
-        <span class="kennel-trait">Gentle & curious</span>
-        <p class="pet-bio">A sweet, affectionate cat who loves cozy sunspots and gentle lap cuddles.</p>
-        <button class="kennel-btn" onclick="openApplicationModal('Luna', '11')">Apply to Adopt Luna</button>
-      </div>
-    </div>
-
-    <!-- card 3 -->
-    <div class="kennel-card pet-item" data-species="dog" data-gender="female" data-status="available" id="coco">
-      <div class="kennel-tag">
-        <span><span class="status-dot"></span>Available</span>
-        <span>Kennel 07</span>
-      </div>
-      <div class="kennel-photo">
-        <span class="material-symbols-outlined">pets</span>
-      </div>
-      <div class="kennel-body">
-        <h3>Coco</h3>
-        <div class="kennel-meta">Female · 3 yrs · Labrador mix</div>
-        <span class="kennel-trait">Great with kids</span>
-        <p class="pet-bio">Well-trained and friendly. Coco is looking for an active family with a garden area.</p>
-        <button class="kennel-btn" onclick="openApplicationModal('Coco', '07')">Apply to Adopt Coco</button>
-      </div>
-    </div>
-
-    <!-- card 4 -->
-    <div class="kennel-card pet-item" data-species="cat" data-gender="male" data-status="available" id="simba">
-      <div class="kennel-tag">
-        <span><span class="status-dot"></span>Available</span>
-        <span>Kennel 15</span>
-      </div>
-      <div class="kennel-photo">
-        <span class="material-symbols-outlined">pets</span>
-      </div>
-      <div class="kennel-body">
-        <h3>Simba</h3>
-        <div class="kennel-meta">Male · 6 months · Kitten</div>
-        <span class="kennel-trait">High energy & playful</span>
-        <p class="pet-bio">Curious little explorer who loves feather toys and playing with cat towers.</p>
-        <button class="kennel-btn" onclick="openApplicationModal('Simba', '15')">Apply to Adopt Simba</button>
-      </div>
-    </div>
-
+    </div> -->
+    <p style="color: #64748b; text-align: center; grid-column: 1/-1;" id="loadingText">Loading rescue animals from shelter...</p>
   </div>
 
 </section>
@@ -220,7 +167,7 @@
         <textarea id="adoptionMessage" name="message" rows="4" class="field-textarea" placeholder="Tell us a little about your home, yard, or prior experience with pets..." required></textarea>
       </div>
 
-      <button type="submit" class="btn-primary">Submit Adoption Inquiry</button>
+      <button type="submit" class="btn-primary">Log in to Finalize Application</button>
     </form>
   </div>
 </div>
@@ -262,6 +209,101 @@
 </footer>
 
 <script src="../script.js"></script>
+<script>
+  let allRescuePets = [];
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    const container = document.getElementById('petsContainer');
+
+    try {
+      const response = await fetch('get_adoption_pets.php');
+      const data = await response.json();
+
+      if (!data.pets || data.pets.length === 0) {
+        container.innerHTML = `<p style="color: #64748b; grid-column: 1/-1; text-align: center;">No rescue animals are currently up for adoption. Check back soon!</p>`;
+        return;
+      }
+
+      allRescuePets = data.pets;
+      renderPets(allRescuePets);
+
+    } catch (err) {
+      console.error('Error fetching adoption pets:', err);
+      container.innerHTML = `<p style="color: #ef4444; grid-column: 1/-1; text-align: center;">Failed to connect to shelter backend.</p>`;
+    }
+  });
+
+  function renderPets(pets) {
+    const container = document.getElementById('petsContainer');
+    container.innerHTML = '';
+
+    if (pets.length === 0) {
+      container.innerHTML = `<p style="color: #64748b; grid-column: 1/-1; text-align: center;">No pets match your selected filter criteria.</p>`;
+      return;
+    }
+
+    pets.forEach(pet => {
+      const speciesLower = (pet.species || 'dog').toLowerCase();
+      const genderLower = (pet.gender || 'male').toLowerCase();
+      const statusLower = (pet.status || 'available').toLowerCase();
+
+      const card = document.createElement('div');
+      card.className = 'kennel-card pet-item';
+      card.setAttribute('data-species', speciesLower);
+      card.setAttribute('data-gender', genderLower);
+      card.setAttribute('data-status', statusLower);
+
+      card.innerHTML = `
+        <div class="kennel-tag">
+          <span><span class="status-dot"></span>${pet.status || 'Available'}</span>
+          <span>Kennel ${pet.kennel_no || 'N/A'}</span>
+        </div>
+        <div class="kennel-photo">
+          <span class="material-symbols-outlined">pets</span>
+        </div>
+        <div class="kennel-body">
+          <h3>${pet.name}</h3>
+          <div class="kennel-meta">${pet.gender || 'N/A'} · ${pet.age_display || pet.age + ' yrs'} · ${pet.breed || 'Mixed'}</div>
+          <span class="kennel-trait">${pet.trait || 'Friendly'}</span>
+          <p class="pet-bio">${pet.description || 'Looking for a loving home.'}</p>
+          <button class="kennel-btn" onclick="openApplicationModal('${pet.name.replace(/'/g, "\\'")}', '${pet.kennel_no}')">Apply to Adopt ${pet.name}</button>
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function filterPets() {
+    const species = document.getElementById('speciesFilter').value.toLowerCase();
+    const gender = document.getElementById('genderFilter').value.toLowerCase();
+    const status = document.getElementById('statusFilter').value.toLowerCase();
+
+    const filtered = allRescuePets.filter(pet => {
+      const pSpecies = (pet.species || '').toLowerCase();
+      const pGender = (pet.gender || '').toLowerCase();
+      const pStatus = (pet.status || 'available').toLowerCase();
+
+      const matchesSpecies = species === 'all' || pSpecies === species;
+      const matchesGender = gender === 'all' || pGender === gender;
+      const matchesStatus = status === 'all' || pStatus === status;
+
+      return matchesSpecies && matchesGender && matchesStatus;
+    });
+
+    renderPets(filtered);
+  }
+
+  function openApplicationModal(petName, kennelNo) {
+    document.getElementById('modalPetTitle').textContent = `Adopt ${petName}`;
+    document.getElementById('modalPetNameInput').value = petName;
+    document.getElementById('modalKennelInput').value = kennelNo;
+    document.getElementById('adoptionModal').style.display = 'flex';
+  }
+
+  function closeApplicationModal() {
+    document.getElementById('adoptionModal').style.display = 'none';
+  }
+</script>
 </body>
 </html>
 
