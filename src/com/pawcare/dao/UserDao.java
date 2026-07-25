@@ -13,7 +13,7 @@ import java.sql.Statement;
 
 public class UserDao {
 
-    // 1. REGISTER NEW USER
+    //register
     public boolean registerUser(User user) {
         String sql = "INSERT INTO users (first_name, last_name, email, password_hash, phone, role) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -57,7 +57,7 @@ public class UserDao {
         }
     }
 
-    // 2. LOGIN USER
+    //login
     public User loginUser(String email, String password) {
         String sql = "SELECT * FROM users WHERE email = ? AND password_hash = ?";
 
@@ -91,5 +91,26 @@ public class UserDao {
             System.err.println("Error logging in: " + e.getMessage());
         }
         return null;
+    }
+
+    
+    //update user profile
+    public boolean updateUserProfile(int userId, String firstName, String lastName, String email, String phone) {
+        String sql = "UPDATE users SET first_name = ?, last_name = ?, email = ?, phone = ? WHERE id = ?";
+
+        try (Connection conn = DatabaseConfig.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, firstName);
+            stmt.setString(2, lastName);
+            stmt.setString(3, email);
+            stmt.setString(4, phone);
+            stmt.setInt(5, userId);
+
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            System.err.println("Error updating profile: " + e.getMessage());
+            return false;
+        }
     }
 }

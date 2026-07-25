@@ -8,10 +8,10 @@ if (!isset($_SESSION['user_id'])) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $userId    = $_SESSION['user_id'];
-    $firstName = trim($_POST['first_name']);
-    $lastName  = trim($_POST['last_name']);
-    $email     = trim($_POST['email']);
-    $phone     = trim($_POST['phone']);
+    $firstName = isset($_POST['first_name']) ? trim($_POST['first_name']) : '';
+    $lastName  = isset($_POST['last_name']) ? trim($_POST['last_name']) : '';
+    $email     = isset($_POST['email']) ? trim($_POST['email']) : '';
+    $phone     = isset($_POST['phone']) ? trim($_POST['phone']) : '';
 
     $cmd = "java -cp \"../bin;../lib/*\" com.pawcare.MainController updateProfile " . 
             escapeshellarg($userId) . " " . 
@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             escapeshellarg($phone);
 
     $output = shell_exec($cmd);
-    $res = json_decode($output, true);
+    $res = json_decode(trim($output), true);
 
     if (isset($res['success']) && $res['success'] === true) {
         $_SESSION['user_name'] = $firstName;

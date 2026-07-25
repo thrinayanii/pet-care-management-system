@@ -5,6 +5,7 @@ import com.pawcare.dao.AppointmentDao;
 import com.pawcare.dao.DashboardDao;
 import com.pawcare.dao.PetDao;
 import com.pawcare.dao.RescuePetDao;
+import com.pawcare.dao.UserDao;
 import java.util.List;
 
 public class MainController {
@@ -94,6 +95,22 @@ public class MainController {
                 break;
             }
 
+            case "updateProfile": {
+                if (args.length >= 2) {
+                    int userId = Integer.parseInt(args[1]);
+                    String firstName = args.length > 2 ? args[2] : "";
+                    String lastName  = args.length > 3 ? args[3] : "";
+                    String email     = args.length > 4 ? args[4] : "";
+                    String phone     = args.length > 5 ? args[5] : "";
+
+                    UserDao userDao = new UserDao();
+                    boolean success = userDao.updateUserProfile(userId, firstName, lastName, email, phone);
+                    System.out.println("{\"success\":" + success + "}");
+                } else {
+                    System.out.println("{\"success\":false,\"error\":\"Missing user ID\"}");
+                }
+                break;
+}
             default:
                 System.out.println("{\"error\":\"Unknown action\"}");
                 break;

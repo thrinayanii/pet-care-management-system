@@ -138,20 +138,19 @@
         return;
       }
 
-      // 1. Welcome Header & Nav
       document.getElementById('userNameWelcome').textContent = data.user.first_name || 'Pet Owner';
       document.getElementById('profileNavName').textContent = data.user.first_name || 'Account';
 
-      // 2. Stats
+      //Stats
       document.getElementById('statPetCount').textContent = data.pets ? data.pets.length : 0;
       document.getElementById('statApptCount').textContent = data.appointments ? data.appointments.length : 0;
-      
+
       const adoptionStatEl = document.getElementById('statAdoptionCount');
       if (adoptionStatEl) {
-        adoptionStatEl.textContent = data.adoptions ? data.adoptions.length : 0;
+        adoptionStatEl.textContent = data.adoption_count !== undefined ? data.adoption_count : 0;
       }
 
-      // 3. Render Pets
+      //Pets
       const petList = document.getElementById('dashPetList');
       if (!data.pets || data.pets.length === 0) {
         petList.innerHTML = `
@@ -172,7 +171,7 @@
         `).join('');
       }
 
-      // 4. Render Next Appointment
+      //Appointment
       const apptBlock = document.getElementById('dashNextAppt');
       if (apptBlock) {
         if (!data.appointments || data.appointments.length === 0) {

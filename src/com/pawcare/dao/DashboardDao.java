@@ -15,40 +15,43 @@ public class DashboardDao {
 
         List<String> pets = new ArrayList<>();
         List<String> appointments = new ArrayList<>();
+        int adoptionCount = 0;
 
         try (Connection conn = DatabaseConfig.getConnection()) {
             
-            // 1. Fetch Profile Info
+            // Fetch Profile Info
             String userSql = "SELECT first_name, last_name, email, phone FROM users WHERE id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(userSql)) {
                 stmt.setInt(1, userId);
                 ResultSet rs = stmt.executeQuery();
                 if (rs.next()) {
-                    firstName = rs.getString("first_name") != null ? rs.getString("first_name") : "";
-                    lastName = rs.getString("last_name") != null ? rs.getString("last_name") : "";
-                    email = rs.getString("email") != null ? rs.getString("email") : "";
-                    phone = rs.getString("phone") != null ? rs.getString("phone") : "";
+                    firstName = escapeJson(rs.getString("first_name"));
+                    lastName = escapeJson(rs.getString("last_name"));
+                    email = escapeJson(rs.getString("email"));
+                    phone = escapeJson(rs.getString("phone"));
                 }
             }
 
-            // 2. Fetch User Pets
+            // Fetch User Pets
             String petSql = "SELECT pet_id, name, species, breed, gender, age FROM user_pets WHERE user_id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(petSql)) {
                 stmt.setInt(1, userId);
                 ResultSet rs = stmt.executeQuery();
                 while (rs.next()) {
-                    pets.add(String.format("{\"id\":%d,\"name\":\"%s\",\"breed\":\"%s\",\"gender\":\"%s\"}",
+                    pets.add(String.format("{\"id\":%d,\"name\":\"%s\",\"species\":\"%s\",\"breed\":\"%s\",\"gender\":\"%s\",\"age\":\"%s\"}",
                             rs.getInt("pet_id"),
-                            rs.getString("name") != null ? rs.getString("name") : "",
-                            rs.getString("breed") != null ? rs.getString("breed") : "",
-                            rs.getString("gender") != null ? rs.getString("gender") : ""));
+                            escapeJson(rs.getString("name")),
+                            escapeJson(rs.getString("species")),
+                            escapeJson(rs.getString("breed")),
+                            escapeJson(rs.getString("gender")),
+                            escapeJson(rs.getString("age"))));
                 }
             }
 
-            // 3. Fetch User Appointments (Fixed p.pet_id join)
+            // Fetch User Appointments
             String apptSql = "SELECT a.appointment_date, a.appointment_time, a.status, p.name AS pet_name, 'Service Appointment' AS service_type " +
                              "FROM service_appointments a JOIN user_pets p ON a.pet_id = p.pet_id WHERE a.user_id = ? " +
-                             "UNION " +
+                             "UNION ALL " +
                              "SELECT v.appointment_date, v.appointment_time, v.status, p.name AS pet_name, 'Veterinary Visit' AS service_type " +
                              "FROM vet_appointments v JOIN user_pets p ON v.pet_id = p.pet_id WHERE v.user_id = ? " +
                              "ORDER BY appointment_date DESC, appointment_time DESC";
@@ -58,19 +61,40 @@ public class DashboardDao {
                 ResultSet rs = stmt.executeQuery();
                 while (rs.next()) {
                     appointments.add(String.format("{\"appointment_date\":\"%s\",\"appointment_time\":\"%s\",\"status\":\"%s\",\"pet_name\":\"%s\",\"service_type\":\"%s\"}",
-                            rs.getString("appointment_date"),
-                            rs.getString("appointment_time"),
-                            rs.getString("status"),
-                            rs.getString("pet_name"),
-                            rs.getString("service_type")));
+                            escapeJson(rs.getString("appointment_date")),
+                            escapeJson(rs.getString("appointment_time")),
+                            escapeJson(rs.getString("status")),
+                            escapeJson(rs.getString("pet_name")),
+                            escapeJson(rs.getString("service_type"))));
                 }
+            }
+
+            // Count for Adoption Inquiries
+            String adoptSql = "SELECT COUNT(*) AS total FROM adoption_applications WHERE user_id = ?";
+            try (PreparedStatement stmt = conn.prepareStatement(adoptSql)) {
+                stmt.setInt(1, userId);
+                ResultSet rs = stmt.executeQuery();
+                if (rs.next()) {
+                    adoptionCount = rs.getInt("total");
+                }
+            } catch (SQLException e) {
+                System.err.println("Adoption count query error: " + e.getMessage());
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return String.format("{\"user\":{\"first_name\":\"%s\",\"last_name\":\"%s\",\"email\":\"%s\",\"phone\":\"%s\"},\"pets\":[%s],\"appointments\":[%s]}",
-                firstName, lastName, email, phone, String.join(",", pets), String.join(",", appointments));
+        return String.format("{\"user\":{\"first_name\":\"%s\",\"last_name\":\"%s\",\"email\":\"%s\",\"phone\":\"%s\"},\"pets\":[%s],\"appointments\":[%s],\"adoption_count\":%d}",
+                firstName, lastName, email, phone, String.join(",", pets), String.join(",", appointments), adoptionCount);
+    }
+
+    private String escapeJson(String input) {
+        if (input == null) return "";
+        return input.replace("\\", "\\\\")
+                    .replace("\"", "\\\"")
+                    .replace("\n", " ")
+                    .replace("\r", " ")
+                    .replace("\t", " ");
     }
 }

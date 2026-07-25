@@ -12,8 +12,8 @@ public class RescuePetDao {
         String sql = "SELECT pet_id, kennel_no, name, species, breed, age_display, age, gender, trait, description FROM rescue_pets WHERE LOWER(status) = 'available' ORDER BY pet_id DESC";
 
         try (Connection conn = DatabaseConfig.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 String petJson = String.format(
@@ -39,6 +39,10 @@ public class RescuePetDao {
 
     private String escapeJson(String input) {
         if (input == null) return "";
-        return input.replace("\"", "\\\"").replace("\n", " ").replace("\r", "");
+        return input.replace("\\", "\\\\")
+                    .replace("\"", "\\\"")
+                    .replace("\n", " ")
+                    .replace("\r", " ")
+                    .replace("\t", " ");
     }
 }
