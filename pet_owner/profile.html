@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile — PawCare & Rescue</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/styles.css">
+  <link rel="stylesheet" href="../styles/landing.css">
+  <link rel="stylesheet" href="../styles/dashboard.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="../public/index.html" class="logo">
+    <div class="logo-icon"><img src="../logo.svg" alt="PawCare Logo" class="custom-logo"></div>
+    <span class="logo-name">PawCare</span>
+  </a>
+  <div class="nav-links">
+    <a href="petowner_dashboard.html">Dashboard</a>
+    <a href="mypets.html">My Pets</a>
+    <a href="book_service.html">Book Service</a>
+    <a href="my_appointments.html">Appointments</a>
+    <a href="pet_adoption.html">Adopt</a>
+  </div>
+</nav>
+
+<section class="lp-section" style="padding-top: 32px;">
+  <div class="form-container-box">
+    <h2 class="form-title">Account Details</h2>
+    <p class="form-subtitle">Manage your personal information.</p>
+    <form action="process_update_profile.php" method="POST">
+      <div class="form-row-2">
+        <div class="field">
+          <label>First Name</label>
+          <input type="text" id="firstName" name="first_name" required>
+        </div>
+        <div class="field">
+          <label>Last Name</label>
+          <input type="text" id="lastName" name="last_name" required>
+        </div>
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <button type="submit" class="submit-booking-btn">Save Profile</button>
+    </form>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const res = await fetch('get_user_dashboard.php');
+      const data = await res.json();
+
+      if (data.user) {
+        if (document.getElementById('firstName')) document.getElementById('firstName').value = data.user.first_name || '';
+        if (document.getElementById('lastName')) document.getElementById('lastName').value = data.user.last_name || '';
+        if (document.getElementById('emailInput')) document.getElementById('emailInput').value = data.user.email || '';
+        if (document.getElementById('phoneInput')) document.getElementById('phoneInput').value = data.user.phone || '';
+      }
+    } catch (e) {
+      console.error('Error fetching profile:', e);
+    }
+  });
+</script>
+</body>
+</html>
