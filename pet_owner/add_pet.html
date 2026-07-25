@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Pet — PawCare & Rescue</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles/styles.css">
+  <link rel="stylesheet" href="../styles/landing.css">
+  <link rel="stylesheet" href="../styles/dashboard.css">
+</head>
+<body>
+
+<nav class="site-nav">
+  <a href="../public/index.html" class="logo">
+    <div class="logo-icon"><img src="../logo.svg" alt="PawCare Logo" class="custom-logo"></div>
+    <span class="logo-name">PawCare</span>
+  </a>
+  <div class="nav-links">
+    <a href="petowner_dashboard.html">Dashboard</a>
+    <a href="mypets.html" class="active-link">My Pets</a>
+    <a href="book_service.html">Book Service</a>
+    <a href="my_appointments.html">Appointments</a>
+    <a href="pet_adoption.html">Adopt</a>
+  </div>
+</nav>
+
+<section class="lp-section" style="padding-top: 32px;">
+  <div class="form-container-box">
+    <h2 class="form-title">Register a New Companion</h2>
+    <p class="form-subtitle">Add your pet's details so you can schedule health and grooming services.</p>
+
+    <form action="process_add_pet.php" method="POST">
+      <div class="field">
+        <label for="petName">Pet Name</label>
+        <input type="text" id="petName" name="name" required placeholder="e.g. Buddy">
+      </div>
+      <div class="form-row-2">
+        <div class="field">
+          <label for="species">Species</label>
+          <select id="species" name="species" required>
+            <option value="Dog">Dog</option>
+            <option value="Cat">Cat</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="breed">Breed</label>
+          <input type="text" id="breed" name="breed" placeholder="e.g. Labrador">
+        </div>
+      </div>
+      <div class="form-row-2">
+        <div class="field">
+          <label for="gender">Gender</label>
+          <select id="gender" name="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="age">Age</label>
+          <input type="text" id="age" name="age" placeholder="e.g. 2 Years">
+        </div>
+      </div>
+      <div class="field">
+        <label for="notes">Notes</label>
+        <textarea id="notes" name="notes" rows="3" class="field-textarea" placeholder="Dietary needs, allergies, etc."></textarea>
+      </div>
+      <button type="submit" class="submit-booking-btn">+ Register Pet</button>
+    </form>
+  </div>
+</section>
+</body>
+</html>
