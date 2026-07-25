@@ -11,10 +11,7 @@
   <link rel="stylesheet" href="../styles/styles.css">
   <link rel="stylesheet" href="../styles/landing.css">
   <link rel="stylesheet" href="../styles/dashboard.css">
-  <style>
-    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
-    .modal-card { background: white; padding: 2rem; border-radius: 12px; width: 100%; max-width: 500px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
-  </style>
+
 </head>
 <body>
 
@@ -60,12 +57,20 @@
     </div>
   </div>
 
-  <div class="pet-cards-grid" id="adoptionGrid">
+  <!-- Species Filter Bar -->
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterPets('all', this)">All Pets</button>
+    <button class="filter-btn" onclick="filterPets('dog', this)">🐕 Dogs Only</button>
+    <button class="filter-btn" onclick="filterPets('cat', this)">🐈 Cats Only</button>
+  </div>
+
+  <!-- Forced 3-Column Grid Container -->
+  <div class="adoption-3col-grid" id="adoptionGrid">
     <p style="color: var(--text-3); grid-column: 1/-1;">Loading available rescue animals...</p>
   </div>
 </section>
 
-<!-- Adoption form -->
+<!-- Adoption Modal -->
 <div class="modal-overlay" id="adoptModal">
   <div class="modal-card">
     <h3 style="margin-bottom: 0.5rem;" id="modalTitle">Apply to Adopt</h3>
@@ -96,24 +101,43 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', async () => {
-    const grid = document.getElementById('adoptionGrid');
+  let allPets = []; // Holds all fetched pets
 
+  document.addEventListener('DOMContentLoaded', async () => {
     try {
-      const response = await fetch('../public/get_adoption_pets.php');
+      const response = await fetch('get_rescue_pets.php');
       const data = await response.json();
 
-      grid.innerHTML = '';
-
-      if (!data.pets || data.pets.length === 0) {
-        grid.innerHTML = `<p style="color: #64748b;">No rescue animals available for adoption right now.</p>`;
-        return;
+      if (data.pets) {
+        allPets = data.pets;
+        renderPets(allPets);
+      } else {
+        document.getElementById('adoptionGrid').innerHTML = `<p style="color: #64748b; grid-column: 1/-1;">No rescue animals available for adoption right now.</p>`;
       }
+    } catch (err) {
+      console.error('Error loading adoption gallery:', err);
+      document.getElementById('adoptionGrid').innerHTML = `<p style="color: #ef4444; grid-column: 1/-1;">Unable to load rescue animals at this time.</p>`;
+    }
+  });
 
-      data.pets.forEach(pet => {
-        const card = document.createElement('div');
-        card.className = 'pet-detail-card';
-        card.innerHTML = `
+  function renderPets(petsToDisplay) {
+    const grid = document.getElementById('adoptionGrid');
+    grid.innerHTML = '';
+
+    if (!petsToDisplay || petsToDisplay.length === 0) {
+      grid.innerHTML = `<p style="color: var(--text-3); grid-column: 1/-1; padding: 20px;">No pets match this filter.</p>`;
+      return;
+    }
+
+    petsToDisplay.forEach(pet => {
+      const card = document.createElement('div');
+      card.className = 'pet-detail-card';
+      card.style.display = 'flex';
+      card.style.flexDirection = 'column';
+      card.style.justifyContent = 'space-between';
+
+      card.innerHTML = `
+        <div>
           <div class="pet-card-top">
             <div class="pet-avatar-lg"><span class="material-symbols-outlined">pets</span></div>
             <div class="pet-card-meta">
@@ -123,20 +147,32 @@
           </div>
           <ul class="pet-info-list">
             <li><strong>Breed:</strong> ${pet.breed || 'N/A'}</li>
-            <li><strong>Age:</strong> ${pet.age_display || pet.age + ' yrs'}</li>
-            <li><strong>Trait:</strong> ${pet.trait || 'Friendly'}</li>
-            <li><strong>Description:</strong> ${pet.description}</li>
+            <li><strong>Age:</strong> ${pet.age_display || (pet.age + ' yrs')}</li>
+            <li><strong>Gender:</strong> ${pet.gender || 'N/A'}</li>
+            ${pet.trait ? `<li><strong>Trait:</strong> ${pet.trait}</li>` : ''}
+            <li><strong>About:</strong> ${pet.description}</li>
           </ul>
-          <div class="pet-card-actions">
-            <button onclick="openModal(${pet.pet_id}, '${pet.name}')" class="btn-primary" style="width:100%;">Apply to Adopt ${pet.name}</button>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-    } catch (err) {
-      console.error('Error loading adoption gallery:', err);
+        </div>
+        <div class="pet-card-actions" style="margin-top: 16px;">
+          <button onclick="openModal(${pet.pet_id}, '${pet.name}')" class="submit-booking-btn" style="width:100%;">Apply to Adopt ${pet.name}</button>
+        </div>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  function filterPets(species, btnElement) {
+    // Update active button UI
+    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+    if (btnElement) btnElement.classList.add('active');
+
+    if (species === 'all') {
+      renderPets(allPets);
+    } else {
+      const filtered = allPets.filter(p => p.species.toLowerCase().includes(species));
+      renderPets(filtered);
     }
-  });
+  }
 
   function openModal(petId, petName) {
     document.getElementById('modalPetId').value = petId;
