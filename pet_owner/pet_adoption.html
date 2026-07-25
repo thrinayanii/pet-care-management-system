@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply for Adoption — PawCare & Rescue</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  
+  <link rel="stylesheet" href="../styles/styles.css">
+  <link rel="stylesheet" href="../styles/landing.css">
+  <link rel="stylesheet" href="../styles/dashboard.css">
+  <style>
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+    .modal-card { background: white; padding: 2rem; border-radius: 12px; width: 100%; max-width: 500px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+  </style>
+</head>
+<body>
+
+<!-- nav -->
+<nav class="site-nav">
+  <a href="../public/index.html" class="logo">
+    <div class="logo-icon"><img src="../logo.svg" alt="PawCare Logo" class="custom-logo"></div>
+    <span class="logo-name">PawCare</span>
+  </a>
+
+  <div class="nav-links">
+    <a href="petowner_dashboard.html">Dashboard</a>
+    <a href="mypets.html">My Pets</a>
+    <a href="book_service.html">Book Service</a>
+    <a href="my_appointments.html">Appointments</a>
+    <a href="pet_adoption.html" class="active-link">Adopt</a>
+  </div>
+
+  <div class="nav-actions">
+    <div class="profile-dropdown-wrap" style="position: relative; display: inline-block;">
+      <button class="user-profile-btn" id="profileDropdownBtn" onclick="toggleProfileMenu()" type="button" style="display: flex; align-items: center; gap: 6px; cursor: pointer; background: transparent; border: none; padding: 6px 12px;">
+        <div class="avatar-icon"><span class="material-symbols-outlined">person</span></div>
+        <span class="uname" id="profileNavName">Account</span>
+        <span class="material-symbols-outlined" style="font-size: 18px;">expand_more</span>
+      </button>
+
+      <div class="dropdown-menu" id="profileMenu" style="display: none; position: absolute; right: 0; top: 110%; background: white; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 180px; z-index: 1000;">
+        <a href="profile.html" style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; color: #334155; text-decoration: none; font-size: 14px;"><span class="material-symbols-outlined" style="font-size: 18px;">edit</span> Edit Profile</a>
+        <a href="mypets.html" style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; color: #334155; text-decoration: none; font-size: 14px;"><span class="material-symbols-outlined" style="font-size: 18px;">pets</span> My Pets</a>
+        <a href="my_appointments.html" style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; color: #334155; text-decoration: none; font-size: 14px;"><span class="material-symbols-outlined" style="font-size: 18px;">calendar_month</span> Appointments</a>
+        <div style="border-top: 1px solid #e2e8f0; margin: 4px 0;"></div>
+        <a href="../auth/logout.php" style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; color: #ef4444; text-decoration: none; font-size: 14px;"><span class="material-symbols-outlined" style="font-size: 18px;">logout</span> Log Out</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<section class="lp-section" style="padding-top: 32px;">
+  <div class="pets-header-bar">
+    <div>
+      <span class="lp-eyebrow">Find a Companion</span>
+      <h1 class="page-title">Rescue Pets Available for Adoption</h1>
+    </div>
+  </div>
+
+  <div class="pet-cards-grid" id="adoptionGrid">
+    <p style="color: var(--text-3); grid-column: 1/-1;">Loading available rescue animals...</p>
+  </div>
+</section>
+
+<!-- Adoption form -->
+<div class="modal-overlay" id="adoptModal">
+  <div class="modal-card">
+    <h3 style="margin-bottom: 0.5rem;" id="modalTitle">Apply to Adopt</h3>
+    <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 1.5rem;">Tell us a bit about your home environment and experience with pets.</p>
+    
+    <form action="process_adoption.php" method="POST">
+      <input type="hidden" name="pet_id" id="modalPetId">
+      
+      <div class="field" style="margin-bottom: 1rem;">
+        <label for="homeType">Housing Type</label>
+        <select id="homeType" name="housing_type" required style="width:100%; padding: 8px;">
+          <option value="House">Single Family House</option>
+          <option value="Apartment">Apartment / Condo</option>
+        </select>
+      </div>
+
+      <div class="field" style="margin-bottom: 1rem;">
+        <label for="reason">Why do you want to adopt this pet?</label>
+        <textarea id="reason" name="reason" rows="3" required style="width:100%; padding: 8px;"></textarea>
+      </div>
+
+      <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 1.5rem;">
+        <button type="button" class="btn-secondary" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="btn-primary">Submit Application</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    const grid = document.getElementById('adoptionGrid');
+
+    try {
+      const response = await fetch('../public/get_adoption_pets.php');
+      const data = await response.json();
+
+      grid.innerHTML = '';
+
+      if (!data.pets || data.pets.length === 0) {
+        grid.innerHTML = `<p style="color: #64748b;">No rescue animals available for adoption right now.</p>`;
+        return;
+      }
+
+      data.pets.forEach(pet => {
+        const card = document.createElement('div');
+        card.className = 'pet-detail-card';
+        card.innerHTML = `
+          <div class="pet-card-top">
+            <div class="pet-avatar-lg"><span class="material-symbols-outlined">pets</span></div>
+            <div class="pet-card-meta">
+              <h3>${pet.name}</h3>
+              <span class="pet-species-badge">${pet.species}</span>
+            </div>
+          </div>
+          <ul class="pet-info-list">
+            <li><strong>Breed:</strong> ${pet.breed || 'N/A'}</li>
+            <li><strong>Age:</strong> ${pet.age_display || pet.age + ' yrs'}</li>
+            <li><strong>Trait:</strong> ${pet.trait || 'Friendly'}</li>
+            <li><strong>Description:</strong> ${pet.description}</li>
+          </ul>
+          <div class="pet-card-actions">
+            <button onclick="openModal(${pet.pet_id}, '${pet.name}')" class="btn-primary" style="width:100%;">Apply to Adopt ${pet.name}</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    } catch (err) {
+      console.error('Error loading adoption gallery:', err);
+    }
+  });
+
+  function openModal(petId, petName) {
+    document.getElementById('modalPetId').value = petId;
+    document.getElementById('modalTitle').textContent = `Apply to Adopt ${petName}`;
+    document.getElementById('adoptModal').style.display = 'flex';
+  }
+
+  function closeModal() {
+    document.getElementById('adoptModal').style.display = 'none';
+  }
+
+  function toggleProfileMenu() {
+    const menu = document.getElementById('profileMenu');
+    if (menu) menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+  }
+
+  window.addEventListener('click', (e) => {
+    if (!e.target.closest('.profile-dropdown-wrap')) {
+      const menu = document.getElementById('profileMenu');
+      if (menu) menu.style.display = 'none';
+    }
+  });
+</script>
+</body>
+</html>
