@@ -6,6 +6,7 @@ import com.pawcare.dao.DashboardDao;
 import com.pawcare.dao.PetDao;
 import com.pawcare.dao.RescuePetDao;
 import com.pawcare.dao.UserDao;
+import com.pawcare.dao.VolunteerDao;
 import java.util.List;
 
 public class MainController {
@@ -110,7 +111,71 @@ public class MainController {
                     System.out.println("{\"success\":false,\"error\":\"Missing user ID\"}");
                 }
                 break;
-}
+            }
+
+            case "getVolunteerTasks": {
+                VolunteerDao volDao = new VolunteerDao();
+                List<String> tasks = volDao.getAvailableTasks();
+                System.out.println("{\"tasks\":[" + String.join(",", tasks) + "]}");
+                break;
+            }
+
+            case "applyVolunteerTask": {
+                if (args.length >= 3) {
+                    int userId = Integer.parseInt(args[1]);
+                    int taskId = Integer.parseInt(args[2]);
+
+                    VolunteerDao volDao = new VolunteerDao();
+                    boolean success = volDao.applyForTask(userId, taskId);
+                    System.out.println("{\"success\":" + success + "}");
+                } else {
+                    System.out.println("{\"success\":false,\"error\":\"Missing arguments\"}");
+                }
+                break;
+            }
+
+            case "cancelVolunteerTask": {
+                if (args.length >= 3) {
+                    int userId = Integer.parseInt(args[1]);
+                    int requestId = Integer.parseInt(args[2]);
+
+                    VolunteerDao volDao = new VolunteerDao();
+                    boolean success = volDao.cancelShiftRequest(userId, requestId);
+                    System.out.println("{\"success\":" + success + "}");
+                } else {
+                    System.out.println("{\"success\":false,\"error\":\"Missing arguments\"}");
+                }
+                break;
+            }
+
+            case "submitInquiry": {
+                if (args.length >= 5) {
+                    int userId = Integer.parseInt(args[1]);
+                    String subject = args[2];
+                    String category = args[3];
+                    String message = args[4];
+
+                    VolunteerDao volDao = new VolunteerDao();
+                    boolean success = volDao.submitInquiry(userId, subject, category, message);
+                    System.out.println("{\"success\":" + success + "}");
+                } else {
+                    System.out.println("{\"success\":false,\"error\":\"Missing arguments\"}");
+                }
+                break;
+            }
+
+            case "getVolunteerDashboard": {
+                if (args.length >= 2) {
+                    int userId = Integer.parseInt(args[1]);
+                    VolunteerDao volDao = new VolunteerDao();
+                    String dashboardJson = volDao.getVolunteerDashboardData(userId);
+                    System.out.println(dashboardJson);
+                } else {
+                    System.out.println("{\"error\":\"Missing user ID\"}");
+                }
+                break;
+            }
+            
             default:
                 System.out.println("{\"error\":\"Unknown action\"}");
                 break;

@@ -10,10 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 
 public class UserDao {
 
-    //register
+    // Register User
     public boolean registerUser(User user) {
         String sql = "INSERT INTO users (first_name, last_name, email, password_hash, phone, role) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -33,7 +34,7 @@ public class UserDao {
                 try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                     if (generatedKeys.next()) {
                         int userId = generatedKeys.getInt(1);
-                        insertVolunteerDetails(userId, ((Volunteer) user).getPreferredTask());
+                        insertVolunteerDetails(userId, ((Volunteer) user).getPreferredServiceId());
                     }
                 }
             }
@@ -45,21 +46,27 @@ public class UserDao {
         }
     }
 
-    private void insertVolunteerDetails(int userId, String preferredTask) {
-        String sql = "INSERT INTO volunteers (user_id, preferred_task) VALUES (?, ?)";
+    private void insertVolunteerDetails(int userId, Integer preferredServiceId) {
+        String sql = "INSERT INTO volunteers (user_id, preferred_service_id) VALUES (?, ?)";
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, userId);
-            stmt.setString(2, preferredTask != null ? preferredTask : "daycare");
+            if (preferredServiceId != null) {
+                stmt.setInt(2, preferredServiceId);
+            } else {
+                stmt.setNull(2, Types.INTEGER);
+            }
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Error inserting volunteer details: " + e.getMessage());
         }
     }
 
-    //login
+    // Login User
     public User loginUser(String email, String password) {
-        String sql = "SELECT * FROM users WHERE email = ? AND password_hash = ?";
+        String sql = "SELECT u.*, v.preferred_service_id FROM users u " +
+                     "LEFT JOIN volunteers v ON u.id = v.user_id " +
+                     "WHERE u.email = ? AND u.password_hash = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -81,7 +88,9 @@ public class UserDao {
                         case "admin":
                             return new AdminUser(id, fName, lName, userEmail, pass, phone);
                         case "volunteer":
-                            return new Volunteer(id, fName, lName, userEmail, pass, phone, "daycare");
+                            int prefIdInt = rs.getInt("preferred_service_id");
+                            Integer prefServiceId = rs.wasNull() ? 4 : prefIdInt; // Default to service_id 4 (Dog Walking) if null
+                            return new Volunteer(id, fName, lName, userEmail, pass, phone, prefServiceId);
                         default:
                             return new PetOwner(id, fName, lName, userEmail, pass, phone);
                     }
@@ -93,13 +102,11 @@ public class UserDao {
         return null;
     }
 
-    
-    //update user profile
     public boolean updateUserProfile(int userId, String firstName, String lastName, String email, String phone) {
         String sql = "UPDATE users SET first_name = ?, last_name = ?, email = ?, phone = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConfig.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, firstName);
             stmt.setString(2, lastName);

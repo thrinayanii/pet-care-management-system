@@ -1,15 +1,15 @@
 package com.pawcare.model;
 
 public class Volunteer extends User {
-    private String preferredTask;
+    private Integer preferredServiceId;
 
     public Volunteer() { super(); }
 
-    public Volunteer(int id, String firstName, String lastName, String email, String passwordHash, String phone, String preferredTask) {
+    public Volunteer(int id, String firstName, String lastName, String email, String passwordHash, String phone, Integer preferredServiceId) {
         super(id, firstName, lastName, email, passwordHash, phone, "volunteer");
-        this.preferredTask = preferredTask;
+        this.preferredServiceId = preferredServiceId;
     }
 
-    public String getPreferredTask() { return preferredTask; }
-    public void setPreferredTask(String preferredTask) { this.preferredTask = preferredTask; }
+    public Integer getPreferredServiceId() { return preferredServiceId; }
+    public void setPreferredServiceId(Integer preferredServiceId) { this.preferredServiceId = preferredServiceId; }
 }
