@@ -1,382 +1,130 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>My Applications | PawCare & Rescue</title>
+    <title>My Shifts — PawCare & Rescue</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
 
     <link rel="stylesheet" href="../styles/styles.css">
     <link rel="stylesheet" href="../styles/landing.css">
     <link rel="stylesheet" href="../styles/dashboard.css">
     <link rel="stylesheet" href="../styles/volunteer.css">
-
 </head>
-
 <body>
 
-<!-- ================= NAVIGATION ================= -->
-
+<!-- Navigation Bar -->
 <nav class="site-nav">
-
-    <a href="index.html" class="logo">
-
-        <div class="logo-icon">
-
-            <img src="../logo.svg"
-                 alt="PawCare Logo"
-                 class="custom-logo">
-
-        </div>
-
-        <span class="logo-name">
-
-            PawCare
-
-        </span>
-
+    <a href="../public/index.html" class="logo">
+        <div class="logo-icon"><img src="../logo.svg" alt="PawCare Logo" class="custom-logo"></div>
+        <span class="logo-name">PawCare</span>
     </a>
 
     <div class="nav-links">
-
-
         <a href="volunteer_dashboard.html">Dashboard</a>
-
-        <a href="volunteer_applications.html" class="active-link">
-            My Applications
-        </a>
-        
-        <a href="volunteer_inquiries.html">
-            Inquiries
-        </a>
-
+        <a href="volunteer_applications.html" class="active-link">My Shifts</a>
+        <a href="volunteer_inquiries.html">Inquiries</a>
     </div>
 
     <div class="nav-actions">
+        <div class="profile-dropdown-wrap" style="position: relative; display: inline-block;">
+            <button class="user-profile-btn" id="profileDropdownBtn" onclick="toggleProfileMenu()" type="button" style="display: flex; align-items: center; gap: 6px; cursor: pointer; background: transparent; border: none; padding: 6px 12px;">
+                <div class="avatar-icon"><span class="material-symbols-outlined">volunteer_activism</span></div>
+                <span class="uname" id="profileNavName">Volunteer</span>
+                <span class="material-symbols-outlined" style="font-size: 18px;">expand_more</span>
+            </button>
 
-        <a href="volunteer-profile.html"
-           class="user-profile-btn">
-
-            <div class="avatar-icon">
-
-                <span class="material-symbols-outlined">
-
-                    person
-
-                </span>
-
+            <div class="dropdown-menu" id="profileMenu" style="display: none; position: absolute; right: 0; top: 110%; background: white; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 180px; z-index: 1000;">
+                <a href="profile.html" style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; color: #334155; text-decoration: none; font-size: 14px;"><span class="material-symbols-outlined" style="font-size: 18px;">edit</span> Edit Profile</a>
+                <div style="border-top: 1px solid #e2e8f0; margin: 4px 0;"></div>
+                <a href="../auth/logout.php" style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; color: #ef4444; text-decoration: none; font-size: 14px;"><span class="material-symbols-outlined" style="font-size: 18px;">logout</span> Log Out</a>
             </div>
-
-            <span class="uname">
-
-                Profile
-
-            </span>
-
-        </a>
-
-        <a href="login.html"
-           class="btn-hero-outline nav-logout-btn">
-
-            Log out
-
-        </a>
-
+        </div>
     </div>
-
 </nav>
 
-<!-- ================= PAGE ================= -->
-
-<section class="lp-section"
-         style="padding-top:32px;">
-
+<section class="lp-section" style="padding-top:32px;">
     <div class="welcome-banner">
-
         <div class="welcome-left">
-
-            <h1>
-
-                My Applications
-
-            </h1>
-
-            <p>
-
-                Track the status of your volunteer applications.
-                Pending applications may be cancelled before approval.
-
-            </p>
-
+            <h1>My Scheduled Shifts</h1>
+            <p>Track the status of your volunteer shift applications. Pending shifts may be cancelled before approval.</p>
         </div>
-
     </div>
 
     <div class="dash-block">
-
         <div class="dash-block-head">
-
-            <h3>
-
-                Volunteer Applications
-
-            </h3>
-
+            <h3>Applied Shifts</h3>
         </div>
 
         <div class="table-container">
-
             <table class="applications-table">
-
                 <thead>
-
                     <tr>
-
-                        <th>Task</th>
-
-                        <th>Date</th>
-
+                        <th>Task Title</th>
+                        <th>Shift Date</th>
                         <th>Location</th>
-
                         <th>Status</th>
-
                         <th>Action</th>
-
                     </tr>
-
                 </thead>
-
-                <tbody>
-
+                <tbody id="shiftsTableBody">
                     <tr>
-
-                        <td>Dog Walking</td>
-
-                        <td>15 Jul 2026</td>
-
-                        <td>Colombo Shelter</td>
-
-                        <td>
-
-                            <span class="status pending">
-
-                                Pending
-
-                            </span>
-
-                        </td>
-
-                        <td>
-
-                            <button class="cancel-btn">
-
-                                Cancel
-
-                            </button>
-
-                        </td>
-
+                        <td colspan="5" style="text-align: center; color: #64748b; padding: 20px;">Loading your shifts...</td>
                     </tr>
-
-                    <tr>
-
-                        <td>Shelter Cleaning</td>
-
-                        <td>20 Jul 2026</td>
-
-                        <td>PawCare Shelter</td>
-
-                        <td>
-
-                            <span class="status approved">
-
-                                Approved
-
-                            </span>
-
-                        </td>
-
-                        <td>
-
-                            <button class="details-btn">
-
-                                View Details
-
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>Adoption Event</td>
-
-                        <td>25 Jul 2026</td>
-
-                        <td>Community Hall</td>
-
-                        <td>
-
-                            <span class="status approved">
-
-                                Approved
-
-                            </span>
-
-                        </td>
-
-                        <td>
-
-                            <button class="details-btn">
-
-                                View Details
-
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>Cat Care</td>
-
-                        <td>28 Jul 2026</td>
-
-                        <td>Cat Rescue Centre</td>
-
-                        <td>
-
-                            <span class="status pending">
-
-                                Pending
-
-                            </span>
-
-                        </td>
-
-                        <td>
-
-                            <button class="cancel-btn">
-
-                                Cancel
-
-                            </button>
-
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>Fundraising Campaign</td>
-
-                        <td>5 Jul 2026</td>
-
-                        <td>PawCare Office</td>
-
-                        <td>
-
-                            <span class="status rejected">
-
-                                Rejected
-
-                            </span>
-
-                        </td>
-
-                        <td>
-
-                            <button class="reason-btn"
-                                    id="viewReasonBtn">
-
-                                View Reason
-
-                            </button>
-
-                        </td>
-
-                    </tr>
-
                 </tbody>
-
             </table>
-
         </div>
-
     </div>
-
 </section>
 
-<!-- ================= REJECTION REASON MODAL ================= -->
-
+<!-- Rejection Reason Modal -->
 <div id="reasonModal" class="modal">
-
     <div class="modal-content">
-
-        <span class="close-modal">&times;</span>
-
-        <h2>Application Rejected</h2>
-
+        <span class="close-modal" onclick="closeModal('reasonModal')">&times;</span>
+        <h2>Shift Status Details</h2>
         <table class="modal-table">
-
             <tr>
                 <th>Task</th>
-                <td>Fundraising Campaign</td>
+                <td id="modalTaskName">-</td>
             </tr>
-
             <tr>
                 <th>Status</th>
-                <td>Rejected</td>
+                <td id="modalTaskStatus">-</td>
             </tr>
-
             <tr>
-                <th>Reason</th>
-                <td>
-                    Another volunteer had already been selected before
-                    your application was reviewed.
-                </td>
+                <th>Notes</th>
+                <td id="modalTaskReason">-</td>
             </tr>
-
         </table>
-
     </div>
-
 </div>
 
-<!-- ================= FOOTER ================= -->
-
 <footer class="site-footer">
-
-    <div class="footer-bottom"
-         style="border-top:none;padding-top:0;">
-
-        <span>
-
-            © 2026 PawCare & Rescue. All rights reserved.
-
-        </span>
-
-        <span>
-
-            Made with care, for every paw.
-
-        </span>
-
+    <div class="footer-bottom" style="border-top:none;padding-top:0;">
+        <span>© 2026 PawCare & Rescue. All rights reserved.</span>
+        <span>Made with care, for every paw.</span>
     </div>
-
 </footer>
 
+<script>
+  function toggleProfileMenu() {
+    const menu = document.getElementById('profileMenu');
+    if (menu) menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).style.display = 'none';
+  }
+
+  window.addEventListener('click', (e) => {
+    if (!e.target.closest('.profile-dropdown-wrap')) {
+      const menu = document.getElementById('profileMenu');
+      if (menu) menu.style.display = 'none';
+    }
+  });
+</script>
 <script src="../volunteer.js"></script>
-
 </body>
-
 </html>
