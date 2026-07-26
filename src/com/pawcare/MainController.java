@@ -1,5 +1,6 @@
 package com.pawcare;
 
+import com.pawcare.dao.AdminDao;
 import com.pawcare.dao.AdoptionDao;
 import com.pawcare.dao.AppointmentDao;
 import com.pawcare.dao.DashboardDao;
@@ -172,6 +173,27 @@ public class MainController {
                     System.out.println(dashboardJson);
                 } else {
                     System.out.println("{\"error\":\"Missing user ID\"}");
+                }
+                break;
+            }
+
+            case "getAdminDashboard": {
+                AdminDao adminDao = new AdminDao();
+                String adminJson = adminDao.getAdminDashboardData();
+                System.out.println(adminJson);
+                break;
+            }
+
+            case "updateShiftStatus": {
+                if (args.length >= 3) {
+                    int requestId = Integer.parseInt(args[1]);
+                    String newStatus = args[2];
+
+                    AdminDao adminDao = new AdminDao();
+                    boolean success = adminDao.updateShiftStatus(requestId, newStatus);
+                    System.out.println("{\"success\":" + success + "}");
+                } else {
+                    System.out.println("{\"success\":false,\"error\":\"Missing arguments\"}");
                 }
                 break;
             }

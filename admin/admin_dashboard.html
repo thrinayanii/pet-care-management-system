@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard — PawCare & Rescue</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="../styles/landing.css">
+    <link rel="stylesheet" href="../styles/dashboard.css">
+    <link rel="stylesheet" href="../styles/volunteer.css">
+</head>
+<body>
+
+<nav class="site-nav">
+    <a href="../public/index.html" class="logo">
+        <div class="logo-icon"><img src="../logo.svg" alt="PawCare Logo" class="custom-logo"></div>
+        <span class="logo-name">PawCare</span>
+    </a>
+
+    <div class="nav-links">
+        <a href="admin_dashboard.html" class="active-link">Admin Dashboard</a>
+    </div>
+
+    <div class="nav-actions">
+        <div class="profile-dropdown-wrap" style="position: relative; display: inline-block;">
+            <button class="user-profile-btn" id="profileDropdownBtn" onclick="toggleProfileMenu()" type="button" style="display: flex; align-items: center; gap: 6px; cursor: pointer; background: transparent; border: none; padding: 6px 12px;">
+                <div class="avatar-icon"><span class="material-symbols-outlined">admin_panel_settings</span></div>
+                <span class="uname" id="profileNavName">Admin</span>
+                <span class="material-symbols-outlined" style="font-size: 18px;">expand_more</span>
+            </button>
+
+            <div class="dropdown-menu" id="profileMenu" style="display: none; position: absolute; right: 0; top: 110%; background: white; border: 1px solid #e2e8f0; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); width: 180px; z-index: 1000;">
+                <a href="../auth/logout.php" style="display: flex; align-items: center; gap: 8px; padding: 10px 16px; color: #ef4444; text-decoration: none; font-size: 14px;"><span class="material-symbols-outlined" style="font-size: 18px;">logout</span> Log Out</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<section class="lp-section" style="padding-top:32px;">
+
+    <!-- Welcome Banner -->
+    <div class="welcome-banner">
+        <div class="welcome-left">
+            <h1>System Admin Control Center</h1>
+            <p>Review volunteer shift requests, manage appointments, and oversee shelter animal operations.</p>
+        </div>
+    </div>
+
+    <!-- 4-Card Stats Bar -->
+    <div class="dashboard-stats-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 24px;">
+        <div class="dash-stat-card">
+            <div class="dash-stat-icon"><span class="material-symbols-outlined">group</span></div>
+            <div>
+                <div class="dash-stat-num" id="statUsers">0</div>
+                <div class="dash-stat-lbl">Registered Users</div>
+            </div>
+        </div>
+
+        <div class="dash-stat-card">
+            <div class="dash-stat-icon"><span class="material-symbols-outlined">pending_actions</span></div>
+            <div>
+                <div class="dash-stat-num" id="statPendingShifts">0</div>
+                <div class="dash-stat-lbl">Pending Shifts</div>
+            </div>
+        </div>
+
+        <div class="dash-stat-card">
+            <div class="dash-stat-icon"><span class="material-symbols-outlined">event_available</span></div>
+            <div>
+                <div class="dash-stat-num" id="statPendingAppts">0</div>
+                <div class="dash-stat-lbl">Pending Appointments</div>
+            </div>
+        </div>
+
+        <div class="dash-stat-card">
+            <div class="dash-stat-icon"><span class="material-symbols-outlined">pets</span></div>
+            <div>
+                <div class="dash-stat-num" id="statRescuePets">0</div>
+                <div class="dash-stat-lbl">Rescue Pets in Care</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shift Requests Table Block -->
+    <div class="dash-block" style="margin-bottom: 24px;">
+        <div class="dash-block-head">
+            <h3>Volunteer Shift Requests</h3>
+        </div>
+        <div class="table-container">
+            <table class="applications-table">
+                <thead>
+                    <tr>
+                        <th>Volunteer</th>
+                        <th>Shift Task</th>
+                        <th>Scheduled Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="shiftRequestsTable">
+                    <tr><td colspan="5" style="text-align:center; padding:20px; color:#64748b;">Loading shift requests...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Service Appointments Block -->
+    <div class="dash-block" style="margin-bottom: 24px;">
+        <div class="dash-block-head">
+            <h3>Service Appointments Overview</h3>
+        </div>
+        <div class="table-container">
+            <table class="applications-table">
+                <thead>
+                    <tr>
+                        <th>Pet Owner</th>
+                        <th>Service Requested</th>
+                        <th>Date & Time</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="appointmentsTable">
+                    <tr><td colspan="4" style="text-align:center; padding:20px; color:#64748b;">Loading appointments...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Rescue Animals Block -->
+    <div class="dash-block">
+        <div class="dash-block-head">
+            <h3>Shelter Rescue Animals</h3>
+        </div>
+        <div class="table-container">
+            <table class="applications-table">
+                <thead>
+                    <tr>
+                        <th>Kennel #</th>
+                        <th>Pet Name</th>
+                        <th>Species</th>
+                        <th>Breed</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="rescuePetsTable">
+                    <tr><td colspan="5" style="text-align:center; padding:20px; color:#64748b;">Loading shelter pets...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</section>
+
+<footer class="site-footer">
+    <div class="footer-bottom" style="border-top:none;padding-top:0;">
+        <span>© 2026 PawCare & Rescue. All rights reserved.</span>
+        <span>Made with care, for every paw.</span>
+    </div>
+</footer>
+
+<script>
+  function toggleProfileMenu() {
+    const menu = document.getElementById('profileMenu');
+    if (menu) menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+  }
+
+  window.addEventListener('click', (e) => {
+    if (!e.target.closest('.profile-dropdown-wrap')) {
+      const menu = document.getElementById('profileMenu');
+      if (menu) menu.style.display = 'none';
+    }
+  });
+</script>
+<script src="admin.js"></script>
+</body>
+</html>
